@@ -1,36 +1,4 @@
 var express = require('express');
-var graphqlHTTP = require('express-graphql');
-var { buildSchema  } = require('graphql');
-
-// Construct a schema, using GraphQL schema language
-var schemaV1 = buildSchema(`
-  type Query {
-    allBooks(title: String): [Book],
-    rollDice(numDice: Int!, numSides: Int): [Int]
-    
-  },
-  type Book {
-    id: Int
-    author: String
-    title: String
-    url2:String @deprecated(reason: "Use url")
-    url:String
-  }
-`);
-
-var schemaV2 = buildSchema(`
-  type Query {
-    allBooks(title: String): [Book],
-    rollDice(numDice: Int!, numSides: Int): [Int]
-    
-  },
-  type Book {
-    id: Int
-    author: String
-    title: String
-    url: String
-  }
-`);
 
 var bookData = [
     {
@@ -60,7 +28,7 @@ var bookData = [
 ];
 
 var getAllBooks = function (filter) {
-    if (filter.title) {
+    if (filter && filter.title) {
         var title = filter.title;
         return bookData.filter(book => book.title.startsWith(title))
     }
@@ -75,26 +43,15 @@ var rollDices = function (args) {
     return output;
 };
 
-// The root provides a resolver function for each API endpoint
-var root = {
-    allBooks: getAllBooks,
-    rollDice: rollDices
-};
-
 var app = express();
-app.use('/', graphqlHTTP({
-    schema: schemaV1,
-    rootValue: root,
-    graphiql: true,
-}));
-app.listen(3000);
-console.log('Running a GraphQL API server at http://localhost:3000/');
 
-var app2 = express();
-app2.use('/', graphqlHTTP({
-    schema: schemaV2,
-    rootValue: root,
-    graphiql: true,
-}));
-app2.listen(4000);
-console.log('Running a GraphQL API server at http://localhost:4000/');
+app.get('/', (req, res) => {
+    res.send(JSON.stringify(getAllBooks(null)));
+});
+
+app.get('/:title', (req, res) => {
+    console.log(req.params);
+    res.send(JSON.stringify(getAllBooks(req.params)));
+});
+app.listen(2000);
+console.log('Running a REST API server at http://localhost:2000/');

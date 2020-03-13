@@ -2,9 +2,10 @@
   "name": "zeus",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/graphql/clientGraphQL.js",
   "scripts": {
-    "start": "babel-node src/index.js"
+    "startGraphQL": "babel-node src/graphql/clientGraphQL.js",
+    "startREST": "babel-node src/rest/clientREST.js"
   },
   "author": "da721wol <da721wol@htwg-konstanz.de>",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "node-fetch": "^2.6.0",
+    "node-rest-client": "^3.1.0",
     "react-apollo": "^3.1.3"
   }
 }
