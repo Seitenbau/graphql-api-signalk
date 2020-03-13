@@ -1,0 +1,20 @@
+{
+  "name": "graphqlExamples",
+  "version": "1.0.0",
+  "description": "GraphQL Examples for Bachelor",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/clientQL.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "fetchql": "^3.0.0",
+    "graphql": "^14.6.0",
+    "graphql-request": "^1.8.2",
+    "node-fetch": "^2.6.0"
+  }
+}
