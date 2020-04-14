@@ -42,6 +42,7 @@ Sofware needed for Windows:
 * Python
 * Visual studio with "Desktop development with C++"
 * Bonjour SDK for Windows
+* mdns -> npm install mdns
 
 ```
 git clone https://github.com/SignalK/signalk-server-node.git
