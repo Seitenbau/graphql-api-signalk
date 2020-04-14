@@ -373,23 +373,23 @@
         \begingroup
             \ifx\@report@type\bachelor
                 \node at (15.8mm,-82.1mm)[anchor=center]{
-                    \includegraphics[scale=0.165]{cover/B_black}
+                    \includegraphics[scale=0.165]{B_black}
                 };
                 \node at (36.8mm,-250.1mm)[anchor=center]{
-                    \includegraphics[scale=0.17]{cover/S_black}
+                    \includegraphics[scale=0.17]{S_black}
                 };
                 \node at (162.8mm,-124.1mm)[anchor=center]{
-                    \includegraphics[scale=0.15]{cover/C_black}
+                    \includegraphics[scale=0.15]{C_black}
                 };
             \else\ifx\@report@type\master
                 \node at (15.8mm,-82.1mm)[anchor=center]{
-                    \includegraphics[scale=0.165]{cover/M_black}
+                    \includegraphics[scale=0.165]{M_black}
                 };
                 \node at (36.8mm,-250.1mm)[anchor=center]{
-                    \includegraphics[scale=0.17]{cover/S_black}
+                    \includegraphics[scale=0.17]{S_black}
                 };
                 \node at (162.8mm,-124.1mm)[anchor=center]{
-                    \includegraphics[scale=0.15]{cover/C_black}
+                    \includegraphics[scale=0.15]{C_black}
                 };
             \else
               %nothing%
@@ -415,11 +415,11 @@
         \node at (139.8mm,-37mm)[anchor=north west, fill=htwg-dark-blue]{
             \begin{minipage}[t]{55mm}
                 \begin{flushleft}
-                    \color{htwg-white}\scriptsize\textbf{Submitted by}
+                    \color{htwg-white}\scriptsize\textbf{Eingereicht von}
                     \linebreak
                     \color{htwg-white}\scriptsize{\@author}
                     \linebreak 
-                    \color{htwg-white}\scriptsize{Student Number \@student@number}
+                    \color{htwg-white}\scriptsize{Matrikel-Nummer \@student@number}
                     \linebreak
                     \linebreak
                     \color{htwg-white}\scriptsize{\@student@email}

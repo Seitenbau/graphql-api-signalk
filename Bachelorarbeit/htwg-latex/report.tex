@@ -1,8 +1,11 @@
-\documentclass[]{htwg-report}
+
+\pdfminorversion=7
+\documentclass[german]{htwg-report}
 
 \addbibresource{./bib/report.bib}
 
 \begin{document}
+
 
 %% Use Roman numerals for the page numbers of the title pages and table of
 %% contents.
@@ -15,16 +18,16 @@
 %% other		--> none
 \reporttype{bachelor}
 
-\reporttypetext{Bachelor Thesis}
+\reporttypetext{Bachelor These}
 
-\title[Is it Possible to Write a Sexy Thesis with LaTeX?]{Is it Possible to Write a Sexy Thesis with LaTeX?}
+\title[Entwicklung von Entscheidungskriterien für die Verwendung von GraphQL gegenüber REST in modernen Webanwendungen]{Entwicklung von Entscheidungskriterien für die Verwendung von GraphQL gegenüber REST in modernen Webanwendungen}
 
-\author{Nigel Slaa}
-\studentnumber{123456}
-\studentemail{nigel.slaa@example.nl}
+\author{David Wolpers}
+\studentnumber{295416}
+\studentemail{david.wolpers@htwg-konstanz.de}
 
-\doclocation{Amsterdam}
-\docdate{12th March 2018}
+\doclocation{Konstanz}
+\docdate{30ter März 2020}
 
 \makecover[]
 %          
@@ -38,7 +41,20 @@
 %% Use Arabic numerals for the page numbers of the chapters.
 \mainmatter
 
-\input{chapter-1}
+\input{kapitel1/Einleitung}
+
+\input{kapitel2/Technischer Hintergrund}
+
+\input{kapitel3/Aspekte von Web-APIs}
+
+\input{kapitel4/Prototypische Analyse}
+
+\input{kapitel5/Evaluation}
+
+\input{kapitel6/Fazit}
+
+\input{kapitel7/Ausblick}
+
 
 %% Use letters for the chapter numbers of the appendices.
 \appendix
