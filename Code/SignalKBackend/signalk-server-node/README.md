@@ -38,6 +38,11 @@ To generate your own vessel settings file and configure your Pi to start the ser
 
 ## Develop: Install from git
 
+Sofware needed for Windows:
+* Python
+* Visual studio with "Desktop development with C++"
+* Bonjour SDK for Windows
+
 ```
 git clone https://github.com/SignalK/signalk-server-node.git
 cd signalk-server-node
