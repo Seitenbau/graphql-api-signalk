@@ -1,0 +1,2 @@
+python, visual studio with "Desktop development with C++",
+bonjour sdk
