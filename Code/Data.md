@@ -3,22 +3,38 @@
 SailingApp: 
 	
 	* Boat Details :
+	
 		* IST:
+		
 			* Daten werden vom ersten Log erstellen genommen
+			
 		* SOLL:
+		
 			* Daten werden beim ersten Aufruf der App abgefragt
+			
 			* Benötigte Daten:
+			
 				* Vessel-Uuid
+				
 				* Vessel-Name
+				
 				* Vessel-Mmsi (?)
+				
 	* Log:
+	
 		* IST:
+		
 			* Alle Daten werden beim erstellen eines neuen Logs über REST-API abgefragt
+			
 			* Die Daten bestehen aus allen aktuellen Sensorwerten des Bootes
+			
 			* Daten die ankommen:
-				uuid
-    				name
-    				navigation: {
+			
+				* uuid
+    				
+				* name
+    				
+				* navigation: {
         				Für jeden Sensorwert: {
             					meta: {
                 					units
