@@ -58,6 +58,7 @@ SailingApp:
 
 
 https://github.com/signalk/sailgauge:
+
 	* Ähnlicher Aufbau wie dashboard
 	* Daten:
 		* SOG - speed over ground (meters per second)
@@ -68,6 +69,7 @@ https://github.com/signalk/sailgauge:
 		* distance and direction of mark/waypoint (if feed has it)
 
 https://github.com/signalk/freeboard-sk:
+
 	* Moving map display with the ability to use a combination of online and locally served charts
 	* Verschiedene Plugins:
 		* Anchor Alarm:
@@ -119,6 +121,7 @@ https://github.com/signalk/freeboard-sk:
 		* etc.
 
 Datenmodell von SignalK:
+
 	* Full Format:
 		* Everything!
 	* Delta Format:
