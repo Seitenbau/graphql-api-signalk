@@ -1,8 +1,11 @@
 			Analyse der benötigten Daten von verschiedenen Clients
 
-SailingApp: 
+SailingApp:
+
+* Boat Details
+* Test
 	
-	* Boat Details :
+	 Boat Details :
 	
 		* IST:
 		
