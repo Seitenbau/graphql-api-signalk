@@ -13,21 +13,14 @@ SailingApp:
 				* Vessel-Mmsi (?)
 				
 	* Log:
-	
 		* IST:
-		
 			* Alle Daten werden beim erstellen eines neuen Logs über REST-API abgefragt
-			
 			* Die Daten bestehen aus allen aktuellen Sensorwerten des Bootes
-			
 			* Daten die ankommen:
-			
 				* uuid
-    				
 				* name
-    				
 				* navigation: {
-        				Für jeden Sensorwert: {
+        				* Für jeden Sensorwert: {
             					meta: {
                 					units
                 					description
