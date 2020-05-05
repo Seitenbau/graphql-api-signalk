@@ -31,17 +31,17 @@ SailingApp:
 
 		* SOLL: 
 			* Eigentlich werden nur folgende Daten benötigt:
-				Für jeden Sensorwert: 
-					units
-		 			description
-		 			value
-		 			timestamp (?)
+				* Für jeden Sensorwert: 
+					* units
+		 			* description
+		 			* value
+		 			* timestamp (?)
 			* ABER: Die SignalK Datenmodell gibt die anderen Paramter vor
 				
 
  
 
-Alarm:
+* Alarm:
 	* Aktuelle Daten des Schiffs gestreamt(?):
 		Für jeden Sensorwert: 
 			units
