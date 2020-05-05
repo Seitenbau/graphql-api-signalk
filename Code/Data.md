@@ -1,4 +1,4 @@
-			Benötigte Daten der verschiedenen Frontends
+			Analyse der benÃ¶tigten Daten von verschiedenen Clients
 
 SailingApp: 
 	
@@ -7,19 +7,19 @@ SailingApp:
 			* Daten werden vom ersten Log erstellen genommen
 		* SOLL:
 			* Daten werden beim ersten Aufruf der App abgefragt
-			* Benötigte Daten:
+			* BenÃ¶tigte Daten:
 				* Vessel-Uuid
 				* Vessel-Name
 				* Vessel-Mmsi (?)
 	* Log:
 		* IST:
-			* Alle Daten werden beim erstellen eines neuen Logs über REST-API abgefragt
+			* Alle Daten werden beim erstellen eines neuen Logs Ã¼ber REST-API abgefragt
 			* Die Daten bestehen aus allen aktuellen Sensorwerten des Bootes
 			* Daten die ankommen:
 				uuid
     				name
     				navigation: {
-        				Für jeden Sensorwert: {
+        				FÃ¼r jeden Sensorwert: {
             					meta: {
                 					units
                 					description
@@ -32,8 +32,8 @@ SailingApp:
 				...
 
 		* SOLL: 
-			* Eigentlich werden nur folgende Daten benötigt:
-				Für jeden Sensorwert: 
+			* Eigentlich werden nur folgende Daten benÃ¶tigt:
+				FÃ¼r jeden Sensorwert: 
 					units
 		 			description
 		 			value
@@ -45,14 +45,14 @@ SailingApp:
 
 Alarm:
 	* Aktuelle Daten des Schiffs gestreamt(?):
-		Für jeden Sensorwert: 
+		FÃ¼r jeden Sensorwert: 
 			units
 			description
 			value
 			
 Dashboard:
 	* Aktuelle Daten des Schiffs gestreamt(?):
-		Für jeden Sensorwert: 
+		FÃ¼r jeden Sensorwert: 
 			units
 			description
 			value
@@ -60,7 +60,7 @@ Dashboard:
 
 
 https://github.com/signalk/sailgauge:
-	* Ähnlicher Aufbau wie dashboard
+	* Ã„hnlicher Aufbau wie dashboard
 	* Daten:
 		* SOG - speed over ground (meters per second)
 		* COG - course over ground
