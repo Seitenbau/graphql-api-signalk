@@ -43,17 +43,17 @@ SailingApp:
 
 * Alarm:
 	* Aktuelle Daten des Schiffs gestreamt(?):
-		Für jeden Sensorwert: 
-			units
-			description
-			value
+		* Für jeden Sensorwert: 
+			* units
+			* description
+			* value
 			
-Dashboard:
+* Dashboard:
 	* Aktuelle Daten des Schiffs gestreamt(?):
-		Für jeden Sensorwert: 
-			units
-			description
-			value
+		* Für jeden Sensorwert: 
+			* units
+			* description
+			* value
 			
 
 
@@ -78,7 +78,7 @@ https://github.com/signalk/freeboard-sk:
 			* Fudge Factor
 		* Routes:
 			* GET:
-				* Route Objects:
+				* Objects:
 					* Coordinates
 					* Always same type(useless?)
 			 		* Empty Start & End parameter(useless?)
