@@ -2,25 +2,14 @@
 
 SailingApp:
 
-* Boat Details
-* Test
-	
-	 Boat Details :
-	
-		* IST:
-		
-			* Daten werden vom ersten Log erstellen genommen
-			
+* Boat Details:
+	* IST:
+		* Daten werden vom ersten Log erstellen genommen	
 		* SOLL:
-		
 			* Daten werden beim ersten Aufruf der App abgefragt
-			
 			* Benötigte Daten:
-			
 				* Vessel-Uuid
-				
 				* Vessel-Name
-				
 				* Vessel-Mmsi (?)
 				
 	* Log:
