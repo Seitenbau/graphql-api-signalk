@@ -1,0 +1,21 @@
+{
+  "enabled": false,
+  "enableLogging": true,
+  "enableDebug": true,
+  "configuration": {
+    "on": false,
+    "radius": 200,
+    "delay": 0,
+    "warningPercentage": 0,
+    "warningNotification": false,
+    "noPositionAlarmTime": 10,
+    "position": {
+      "latitude": 60.0404,
+      "longitude": 23.4962,
+      "altitude": 1
+    },
+    "fudge": 200,
+    "bowHeight": 2,
+    "state": "emergency"
+  }
+}

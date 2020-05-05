@@ -1,0 +1,20 @@
+.dial-text {
+    width: 100px;
+    max-height: 100px;
+    font-family: roboto;
+    border: transparent 1px solid;
+}
+
+.dial-text-title {
+    font-size: 12pt;
+    font-weight: 500;
+}
+
+.dial-text-value {
+    font-size: 22pt;
+    font-weight: 500;
+}
+
+.dial-text-units {
+    font-size: 10pt;
+}
