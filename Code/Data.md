@@ -19,18 +19,15 @@ SailingApp:
 			* Daten die ankommen:
 				* uuid
 				* name
-				* navigation: {
-        				* Für jeden Sensorwert: {
-            					meta: {
-                					units
-                					description
-            					},
-            					value 
-            					$source 
-            					timestamp 
-            					sentence
-        				},
-				...
+				* navigation: 
+        				* Für jeden Sensorwert: 
+            					* meta: 
+                					* units
+                					* description
+            					* value 
+            					* $source 
+            					* timestamp 
+            					* sentence
 
 		* SOLL: 
 			* Eigentlich werden nur folgende Daten benötigt:
