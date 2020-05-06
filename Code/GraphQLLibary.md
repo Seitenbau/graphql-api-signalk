@@ -4,5 +4,5 @@
 
 * express-graphql:
   * Einfache Implementierung der GraphQL Serverfunktionalitäten
-  * REST-Schnitsttelle wird ebenfalls mit einem Express Server gehandelt
+  * Die aktuelle REST-Schnitsttelle im SignalK Backend läuft ebenfalls über einen express Server
   
