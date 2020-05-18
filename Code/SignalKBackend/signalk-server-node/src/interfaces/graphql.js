@@ -85,7 +85,7 @@ module.exports = function (app) {
             let json = JSON.parse(file);
             json.uuid = args.uuid;
             return json;
-        },
+        }
     };
     return {
         start: function () {
