@@ -39,29 +39,31 @@ module.exports = function (app) {
 
         type Mutation {
             addRoute(distance: Float!, feature: FeatureInput!, start: String, end: String, description: String, name: String!): Route,
-            deleteRoute(uuid: String): String
+            deleteRoute(uuid: String!): String,
+            updateRoute(uuid: String!, activated: Boolean, distance: Float, feauture: FeatureInput, start: String, end: String, description: String, name: String): Route
         },
 
         type Route {
-            uuid: String,
+            uuid: String!,
             distance: Float,
-            feature: FeatureObject,
+            feature: FeatureObject!,
             start: String,
             end: String,
             description: String,
-            name: String,
+            name: String!,
             timestamp: String,
-            source: String
+            source: String,
+            activated: Boolean
         },
 
         type FeatureObject {
-            type: String,
-            geometry: GeometryObject,
+            type: String!,
+            geometry: GeometryObject!,
             id: String
         },
 
         type GeometryObject {
-            type: String,
+            type: String!,
             coordinates: [[Float!]!]!
         },
 
@@ -126,7 +128,8 @@ module.exports = function (app) {
                 description: (args.description || ""),
                 name: args.name,
                 timestamp: timestamp,
-                source: ""
+                source: "",
+                activated: false
             };
             var jsonData = JSON.stringify(route);
             fs.writeFile(resourcePath + '/' + route.uuid, jsonData, function(err) {
@@ -140,6 +143,45 @@ module.exports = function (app) {
         deleteRoute(args) {
             let file = fs.unlinkSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
             return args.uuid;
+        },
+
+        updateRoute(args) {
+            let file = fs.readFileSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
+            let route = JSON.parse(file);
+
+            var keys = Object.keys(args)
+
+            for (var keyId in keys) {
+                var key = keys[keyId];
+                if(typeof args[key] !== 'object') {
+                    route[key] = args[key];
+                }
+            }
+            if (args.feature) {
+                const feature = args.feature;
+                if(feature.type) {
+                    route.feature.type = feature.type;
+                }
+                if(feature.id) {
+                    route.feature.id = feature.id;
+                }
+                if(feature.geometry) {
+                    const geometry = feature.geometry;
+                    if(geometry.type) {
+                        route.feature.geometry.type = geometry.type;
+                    }
+                    if(geometry.coordinates) {
+                        route.feature.geometry.coordinates = geometry.coordinates;
+                    }
+                }
+            }
+            var jsonData = JSON.stringify(route);
+            fs.writeFile(resourcePath + '/' + route.uuid, jsonData, function(err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            return route;
         }
     };
     return {
