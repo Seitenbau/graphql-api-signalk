@@ -20,6 +20,7 @@ var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 var fs = require('fs');
 var app = express();
+var ObjectId = require("node-time-uuid");
 
 module.exports = function (app) {
     'use strict';
@@ -27,13 +28,17 @@ module.exports = function (app) {
     const versionPrefix = '/v1';
     const apiPathPrefix = pathPrefix + versionPrefix + '/graphql';
 
-    var resourcePath = './resources/routes';
+    const resourcePath = './resources/routes';
 
     var schema = buildSchema(`
         type Query {
             hello(name: String!): String,
             routes: [Route],
             route(uuid: String!): Route
+        },
+
+        type Mutation {
+            addRoute(distance: Float!, feature: FeatureInput!, start: String, end: String, description: String, name: String!): Route
         },
 
         type Route {
@@ -56,8 +61,20 @@ module.exports = function (app) {
 
         type GeometryObject {
             type: String,
-            coordinates: [[Float]]
+            coordinates: [[Float!]!]!
+        },
+
+        input GeometryInput {
+            type: String
+            coordinates: [[Float!]!]!
+        },
+
+        input FeatureInput {
+            type: String,
+            geometry: GeometryInput!,
+            id: String
         }
+         
 
     `);
 
@@ -79,13 +96,45 @@ module.exports = function (app) {
             }
             return routes;
         },
-        
+
         route(args) {
             let file = fs.readFileSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
             let json = JSON.parse(file);
             json.uuid = args.uuid;
             return json;
         },
+
+        addRoute(args) {
+            const feature = args.feature;
+            const geometry = feature.geometry
+            var date = new Date();
+            var timestamp = date.getTime();
+            const route = {
+                uuid: new ObjectId().toString("pretty"),
+                distance: args.distance,
+                feature: {
+                    type: (feature.type || "Feature"),
+                    geometry: {
+                        type: (geometry.type || "LineString"),
+                        coordinates: geometry.coordinates
+                    },
+                    id: (feature.id || "")
+                },
+                start: (args.start || ""),
+                end: (args.end || ""),
+                description: (args.description || ""),
+                name: args.name,
+                timestamp: timestamp,
+                source: ""
+            };
+            var jsonData = JSON.stringify(route);
+            fs.writeFile(resourcePath + '/' + route.uuid, jsonData, function(err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            return route;
+        }
     };
     return {
         start: function () {
