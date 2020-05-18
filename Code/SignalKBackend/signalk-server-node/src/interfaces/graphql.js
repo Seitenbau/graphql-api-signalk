@@ -38,7 +38,8 @@ module.exports = function (app) {
         },
 
         type Mutation {
-            addRoute(distance: Float!, feature: FeatureInput!, start: String, end: String, description: String, name: String!): Route
+            addRoute(distance: Float!, feature: FeatureInput!, start: String, end: String, description: String, name: String!): Route,
+            deleteRoute(uuid: String): String
         },
 
         type Route {
@@ -134,6 +135,11 @@ module.exports = function (app) {
                 }
             });
             return route;
+        },
+
+        deleteRoute(args) {
+            let file = fs.unlinkSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
+            return args.uuid;
         }
     };
     return {
