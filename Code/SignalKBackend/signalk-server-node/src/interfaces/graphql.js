@@ -19,8 +19,6 @@ var express = require('express');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 var fs = require('fs');
-
-
 var app = express();
 
 module.exports = function (app) {
@@ -28,13 +26,14 @@ module.exports = function (app) {
     const pathPrefix = '/signalk';
     const versionPrefix = '/v1';
     const apiPathPrefix = pathPrefix + versionPrefix + '/graphql';
-    var resourcePath = './resources/routes'
+
+    var resourcePath = './resources/routes';
 
     var schema = buildSchema(`
         type Query {
             hello(name: String!): String,
             routes: [Route],
-            route(name: String!): Route
+            route(uuid: String!): Route
         },
 
         type Route {
@@ -62,36 +61,32 @@ module.exports = function (app) {
 
     `);
 
-
     var root = {
         hello(args) {
-            let name = args.name
-            return name
+            let name = args.name;
+            return name;
         },
 
         routes() {
-            let routes = []
-            let files = fs.readdirSync('./resources/routes')
+            let routes = [];
+            let files = fs.readdirSync('./resources/routes');
             for (var fileId in files) {
                 let file = files[fileId];
-                let data = fs.readFileSync(resourcePath + '/' + file)
+                let data = fs.readFileSync(resourcePath + '/' + file);
                 let json = JSON.parse(data);
                 json.uuid = file;
                 routes.push(json);
             }
-            return routes
+            return routes;
         },
-
+        
         route(args) {
-            let file = fs.readFileSync(resourcePath + '/' + args.name) //ignoring any security issues here
+            let file = fs.readFileSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
             let json = JSON.parse(file);
-            json.uuid = args.name;
+            json.uuid = args.uuid;
             return json;
         },
-
-
     };
-
     return {
         start: function () {
             app.use(apiPathPrefix, graphqlHTTP({
@@ -100,5 +95,5 @@ module.exports = function (app) {
                 graphiql: true,
             }));
         }
-    }
-}
+    };
+};
