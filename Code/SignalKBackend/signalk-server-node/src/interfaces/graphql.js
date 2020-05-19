@@ -40,7 +40,7 @@ module.exports = function (app) {
         type Mutation {
             addRoute(distance: Float!, feature: FeatureInput!, start: String, end: String, description: String, name: String!): Route,
             deleteRoute(uuid: String!): String,
-            updateRoute(uuid: String!, activated: Boolean, distance: Float, feauture: FeatureInput, start: String, end: String, description: String, name: String): Route
+            updateRoute(uuid: String!, activated: Boolean, distance: Float, feature: FeatureInput, start: String, end: String, description: String, name: String): Route
         },
 
         type Route {
@@ -157,6 +157,7 @@ module.exports = function (app) {
                     route[key] = args[key];
                 }
             }
+            console.log(args.feature);
             if (args.feature) {
                 const feature = args.feature;
                 if(feature.type) {
@@ -165,11 +166,13 @@ module.exports = function (app) {
                 if(feature.id) {
                     route.feature.id = feature.id;
                 }
+                console.log(args.geometry);
                 if(feature.geometry) {
                     const geometry = feature.geometry;
                     if(geometry.type) {
                         route.feature.geometry.type = geometry.type;
                     }
+                    console.log(geometry.coordinates);
                     if(geometry.coordinates) {
                         route.feature.geometry.coordinates = geometry.coordinates;
                     }
