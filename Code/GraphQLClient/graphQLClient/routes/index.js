@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/test', function (req, res, next) {
+router.get('/addRoute', function (req, res, next) {
   fetch('http://localhost:3000/signalk/v1/graphql', {
     method: 'POST',
     headers: {
