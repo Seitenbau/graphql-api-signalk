@@ -32,8 +32,24 @@ module.exports = function (app) {
     var schema = buildSchema(`
         type Query {
             hello(name: String!): String,
-            routes: [Route],
+            routes(first: Float, after: String): Routes,
             route(uuid: String!): Route
+        },
+
+        type Routes {
+            totalCount: Float!,
+            edges: [EdgeObject!],
+            pageInfo: PageInfo!
+        },
+
+        type EdgeObject {
+            node: Route!,
+            cursor: String!
+        },
+
+        type PageInfo {
+            endCursor: String!,
+            hasNextPage: Boolean!
         },
 
         type Route {
@@ -67,19 +83,45 @@ module.exports = function (app) {
             return name;
         },
 
-        routes() {
-            let routes = [];
+        routes(args) {
+            var routesJson = {}
+            let edges = [];
             let files = fs.readdirSync('./resources/routes');
+            routesJson.totalCount = files.length;
+            
+
+            if (args.after) {
+                var idx = files.indexOf(args.after) + 1;
+                files = files.slice(idx)
+            }
+
+            var hasNext = false;
+
             for (var fileId in files) {
+                if (args.first && args.first <= fileId) {
+                    hasNext = true;
+                    break;
+                }
                 let file = files[fileId];
                 let data = fs.readFileSync(resourcePath + '/' + file);
-                let json = JSON.parse(data);
-                json.uuid = file;
-                routes.push(json);
+                let route = JSON.parse(data);
+                route.uuid = file;
+                var edge = {};
+                edge.node = route;
+                edge.cursor = file;
+                edges.push(edge);
             }
-            return routes;
+
+            routesJson.edges = edges;
+
+            routesJson.pageInfo = {
+                endCursor: files.slice(-1)[0],
+                hasNextPage: hasNext
+            }
+
+            return routesJson;
         },
-        
+
         route(args) {
             let file = fs.readFileSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
             let json = JSON.parse(file);
