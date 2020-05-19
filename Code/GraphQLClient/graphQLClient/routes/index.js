@@ -17,15 +17,18 @@ router.get('/addRoute', function (req, res, next) {
       'Accept': 'application/json',
     },
     body: JSON.stringify({
-      query: "mutation { " +
-        " addRoute(distance: 2.4, feature: { " +
-        " geometry: { " +
-        " coordinates: [[123.4, 212.5], [123.12, 222.41], [123.2, 332.1]] " +
-        " } " +
-        " }, " +
-        " name:\"Test\") { " +
-        " uuid, " +
-        " name}}"
+      query: `
+      mutation { 
+        addRoute(distance: 2.4, feature: { 
+          geometry: {
+            coordinates: [[123.4, 212.5], [123.12, 222.41], [123.2, 332.1]]
+          } 
+          }, name:"Test") { 
+          uuid, 
+          name
+          }
+        }
+      `
     })
   })
     .then(r => r.json())
