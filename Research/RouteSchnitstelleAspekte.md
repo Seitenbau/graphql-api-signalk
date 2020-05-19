@@ -1,10 +1,10 @@
-*Aspekte welche bei der Routen-Schnitstelle behandelt werden können/sollen*
+**Aspekte welche bei der Routen-Schnitstelle behandelt werden kÃ¶nnen/sollen**
 
-* Paginierung
+* Paginierung, Filterung und Sortierung
 * Error Handling
-* Versionierung(könnte bei vessel aber besser sein, da Versionierung da bereits existiert)
+* Versionierung(kÃ¶nnte bei vessel aber besser sein, da Versionierung da bereits existiert)
 * Caching
-* Skalierbarkeit?
-* Automatische Dokumentation(falls nötig)
+* Automatische Dokumentation(falls nÃ¶tig)
 * Implementierungsaufwand(sollte aber zusammen mit Vessel betrachtet werden)
+* *Verbreitung/Ausgereiftheit und FrameworkunterstÃ¼tzung*
 
