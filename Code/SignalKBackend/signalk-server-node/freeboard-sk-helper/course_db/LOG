@@ -1,5 +1,5 @@
-2020/05/05-09:41:55.967 4eec Recovering log #6
-2020/05/05-09:41:55.968 4eec Level-0 table #8: started
-2020/05/05-09:41:55.972 4eec Level-0 table #8: 1203 bytes OK
-2020/05/05-09:41:55.985 4eec Delete type=0 #6
-2020/05/05-09:41:55.985 4eec Delete type=3 #4
+2020/05/19-14:28:47.943 d14 Recovering log #269
+2020/05/19-14:28:47.943 d14 Level-0 table #271: started
+2020/05/19-14:28:47.948 d14 Level-0 table #271: 237 bytes OK
+2020/05/19-14:28:47.970 d14 Delete type=0 #269
+2020/05/19-14:28:47.970 d14 Delete type=3 #267
