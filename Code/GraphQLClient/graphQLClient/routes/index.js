@@ -9,6 +9,8 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+var uuid = "Test";
+
 router.get('/addRoute', function (req, res, next) {
   fetch('http://localhost:3000/signalk/v1/graphql', {
     method: 'POST',
@@ -26,6 +28,25 @@ router.get('/addRoute', function (req, res, next) {
         " name:\"Test\") { " +
         " uuid, " +
         " name}}"
+    })
+  })
+    .then(r => r.json())
+    .then(data => {
+      console.log(data);
+      uuid = data.data.addRoute.uuid;
+      res.render('index', { title: JSON.stringify(data.data) });
+    });
+});
+
+router.get('/deleteRoute', function (req, res, next) {
+  fetch('http://localhost:3000/signalk/v1/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({
+      query: "mutation { deleteRoute(uuid: \"" + uuid + "\") }"
     })
   })
     .then(r => r.json())
