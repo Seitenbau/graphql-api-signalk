@@ -19,14 +19,32 @@ var express = require('express');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+
+const adapter = new FileSync('./database/db.json')
+const db = low(adapter)
+
 
 var app = express();
 
 module.exports = function (app) {
     'use strict';
+
     const pathPrefix = '/signalk';
     const versionPrefix = '/v1';
     const apiPathPrefix = pathPrefix + versionPrefix + '/graphql';
+
+    db.defaults({ routes: [] })
+        .write()
+
+    db.get('routes')
+        .push({ id: 1, title: 'lowdb is awesome' })
+        .write()
+
+    db.get('routes')
+        .push({ id: 2, title: 'lowdb is awesome2' })
+        .write()
 
     var schema = buildSchema(`
         type Query {
@@ -34,14 +52,19 @@ module.exports = function (app) {
         }
     `);
 
-    var root = { hello: () => 'Hello world!' };
+    var root = {
+        hello: () => JSON.stringify(db.get('routes')
+            .filter(route => {return route.title.startsWith('lowdb'); })
+            .value())
+
+    };
 
     return {
         start: function () {
             app.use(apiPathPrefix, graphqlHTTP({
-              schema: schema,
-              rootValue: root,
-              graphiql: true,
+                schema: schema,
+                rootValue: root,
+                graphiql: true,
             }));
         }
     }
