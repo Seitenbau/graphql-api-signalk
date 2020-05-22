@@ -18,8 +18,7 @@
 var express = require('express');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
-
-
+var fs = require('fs');
 var app = express();
 
 module.exports = function (app) {
@@ -28,21 +27,73 @@ module.exports = function (app) {
     const versionPrefix = '/v1';
     const apiPathPrefix = pathPrefix + versionPrefix + '/graphql';
 
+    var resourcePath = './resources/routes';
+
     var schema = buildSchema(`
         type Query {
-            hello: String
+            hello(name: String!): String,
+            routes: [Route],
+            route(uuid: String!): Route
+        },
+
+        type Route {
+            uuid: String,
+            distance: Float,
+            feature: FeatureObject,
+            start: String,
+            end: String,
+            description: String,
+            name: String,
+            timestamp: String,
+            source: String
+        },
+
+        type FeatureObject {
+            type: String,
+            geometry: GeometryObject,
+            id: String
+        },
+
+        type GeometryObject {
+            type: String,
+            coordinates: [[Float]]
         }
+
     `);
 
-    var root = { hello: () => 'Hello world!' };
+    var root = {
+        hello(args) {
+            let name = args.name;
+            return name;
+        },
 
+        routes() {
+            let routes = [];
+            let files = fs.readdirSync('./resources/routes');
+            for (var fileId in files) {
+                let file = files[fileId];
+                let data = fs.readFileSync(resourcePath + '/' + file);
+                let json = JSON.parse(data);
+                json.uuid = file;
+                routes.push(json);
+            }
+            return routes;
+        },
+        
+        route(args) {
+            let file = fs.readFileSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
+            let json = JSON.parse(file);
+            json.uuid = args.uuid;
+            return json;
+        }
+    };
     return {
         start: function () {
             app.use(apiPathPrefix, graphqlHTTP({
-              schema: schema,
-              rootValue: root,
-              graphiql: true,
+                schema: schema,
+                rootValue: root,
+                graphiql: true,
             }));
         }
-    }
-}
+    };
+};
