@@ -49,7 +49,7 @@ module.exports = function (app) {
         type Query {
             hello(name: String!): String,
             routes: [Route],
-            route(uuid: String!): Route
+            route(uuid: String, name: String): Route
         },
 
         type Route {
@@ -78,9 +78,7 @@ module.exports = function (app) {
     `);
 
     var root = {
-        hello: () => JSON.stringify(db.get('routes')
-            .filter(route => { return route.title.startsWith('lowdb'); })
-            .value()),
+        hello: () => "Hello World!",
 
         routes() {
             var routes = db.get('routes').value();
@@ -88,10 +86,15 @@ module.exports = function (app) {
         },
 
         route(args) {
-            let file = fs.readFileSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
-            let json = JSON.parse(file);
-            json.uuid = args.uuid;
-            return json;
+            if (args.uuid) {
+                return db.get('routes')
+                    .find({ uuid: args.uuid })
+                    .value()
+            } else {
+                return db.get('routes')
+                    .find({ name: args.name })
+                    .value()
+            }
         }
     };
     return {
