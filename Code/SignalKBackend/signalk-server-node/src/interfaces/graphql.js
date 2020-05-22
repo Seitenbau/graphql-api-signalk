@@ -40,12 +40,9 @@ module.exports = function (app) {
         .write()
 
     db.get('routes')
-        .push({ id: 1, title: 'lowdb is awesome' })
+        .push({ uuid: "3f441c99-67c1-48cd-8e97-9db483621eff", distance: 6571.329987262973, feature: { type: "Feature", geometry: { type: "LineString", coordinates: [[23.395420074462887, 59.916457640310426], [23.456703186035153, 59.917662281506665], [23.50820159912109, 59.9293622351139]] }, id: "" }, start: null, end: null, description: "Hallo", name: "Test4", timestamp: null, source: "Test" })
         .write()
 
-    db.get('routes')
-        .push({ id: 2, title: 'lowdb is awesome2' })
-        .write()
     var resourcePath = './resources/routes';
 
     var schema = buildSchema(`
@@ -82,22 +79,14 @@ module.exports = function (app) {
 
     var root = {
         hello: () => JSON.stringify(db.get('routes')
-            .filter(route => {return route.title.startsWith('lowdb'); })
+            .filter(route => { return route.title.startsWith('lowdb'); })
             .value()),
 
         routes() {
-            let routes = [];
-            let files = fs.readdirSync('./resources/routes');
-            for (var fileId in files) {
-                let file = files[fileId];
-                let data = fs.readFileSync(resourcePath + '/' + file);
-                let json = JSON.parse(data);
-                json.uuid = file;
-                routes.push(json);
-            }
+            var routes = db.get('routes').value();
             return routes;
         },
-        
+
         route(args) {
             let file = fs.readFileSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
             let json = JSON.parse(file);
