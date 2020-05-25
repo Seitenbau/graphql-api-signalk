@@ -18,14 +18,30 @@
 var express = require('express');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
+
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+
+const adapter = new FileSync('./database/db.json')
+const db = low(adapter)
+
+
 var fs = require('fs');
 var app = express();
 
 module.exports = function (app) {
     'use strict';
+
     const pathPrefix = '/signalk';
     const versionPrefix = '/v1';
     const apiPathPrefix = pathPrefix + versionPrefix + '/graphql';
+
+    db.defaults({ routes: [] })
+        .write()
+
+    db.get('routes')
+        .push({ uuid: "3f441c99-67c1-48cd-8e97-9db483621eff", distance: 6571.329987262973, feature: { type: "Feature", geometry: { type: "LineString", coordinates: [[23.395420074462887, 59.916457640310426], [23.456703186035153, 59.917662281506665], [23.50820159912109, 59.9293622351139]] }, id: "" }, start: null, end: null, description: "Hallo", name: "Test4", timestamp: null, source: "Test" })
+        .write()
 
     var resourcePath = './resources/routes';
 
@@ -78,10 +94,9 @@ module.exports = function (app) {
     `);
 
     var root = {
-        hello(args) {
-            let name = args.name;
-            return name;
-        },
+        hello: () => JSON.stringify(db.get('routes')
+            .filter(route => { return route.title.startsWith('lowdb'); })
+            .value()),
 
         routes(args) {
             var routesJson = {}
@@ -120,6 +135,9 @@ module.exports = function (app) {
             }
 
             return routesJson;
+            
+            var routes = db.get('routes').value();
+            return routes;
         },
 
         route(args) {
@@ -127,7 +145,7 @@ module.exports = function (app) {
             let json = JSON.parse(file);
             json.uuid = args.uuid;
             return json;
-        },
+        }
     };
     return {
         start: function () {

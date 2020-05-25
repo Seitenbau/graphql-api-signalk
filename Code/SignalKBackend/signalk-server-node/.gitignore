@@ -2,6 +2,7 @@ node_modules
 !test/plugin-test-config/node_modules/
 
 lib/
+freeboard-sk-helper/course_db
 
 .DS_Store
 .vscode/
