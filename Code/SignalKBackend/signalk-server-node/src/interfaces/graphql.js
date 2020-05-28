@@ -15,41 +15,38 @@
  * limitations under the License.
  */
 
-var express = require('express');
+var setupDatabase = require('./database.js')
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
-
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
-
-const adapter = new FileSync('./database/db.json')
-const db = low(adapter)
-
-
 var fs = require('fs');
-var app = express();
 
 module.exports = function (app) {
-    'use strict';
 
     const pathPrefix = '/signalk';
     const versionPrefix = '/v1';
     const apiPathPrefix = pathPrefix + versionPrefix + '/graphql';
 
-    db.defaults({ routes: [] })
-        .write()
-
-    db.get('routes')
-        .push({ uuid: "3f441c99-67c1-48cd-8e97-9db483621eff", distance: 6571.329987262973, feature: { type: "Feature", geometry: { type: "LineString", coordinates: [[23.395420074462887, 59.916457640310426], [23.456703186035153, 59.917662281506665], [23.50820159912109, 59.9293622351139]] }, id: "" }, start: null, end: null, description: "Hallo", name: "Test4", timestamp: null, source: "Test" })
-        .write()
+    let db = setupDatabase();
 
     var resourcePath = './resources/routes';
+
+    /*
+    type PageInfo {
+        endCursor: String!,
+        hasNextPage: Boolean!
+    },
+    */
 
     var schema = buildSchema(`
         type Query {
             hello(name: String!): String,
-            routes: [Route],
+            routes(first: Int!, after: Int!): [Routes],
             route(uuid: String!): Route
+        },
+
+        type Routes {
+            node: Route!,
+            cursor: Int!
         },
 
         type Route {
@@ -78,12 +75,45 @@ module.exports = function (app) {
     `);
 
     var root = {
-        hello: () => JSON.stringify(db.get('routes')
-            .filter(route => { return route.title.startsWith('lowdb'); })
-            .value()),
+        hello: () => 'Hello World!',
 
-        routes() {
-            var routes = db.get('routes').value();
+        async routes(args) {
+            let sql = `
+            SELECT route_id,uuid,distance,start,end,description,name,timestamp,source, feature.type feature_type, feature.id, geometry.type geometry_type, geometry.coordinates
+            FROM routes
+            INNER JOIN feature on routes.feature_id = feature.feature_id
+            INNER JOIN geometry on feature.geometry_id = geometry.geometry_id
+            WHERE route_id > ?
+            ORDER BY route_id
+            LIMIT ?;`
+            var rows;
+            var result = new Promise((resolve, reject) => {
+                db.all(sql, [args.after, args.first], (err, res) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(res);
+                });
+            });
+            var rows = await result;
+            var routes = [];
+            rows.forEach(row => {
+                let nodeJson = row;
+                row.feature = {
+                    id: row.id,
+                    type: row.feature_type,
+                    geometry: {
+                        type: row.geometry_type,
+                        coordinates: JSON.parse(row.coordinates)
+                    }
+                }
+                let json = {
+                    node: row,
+                    cursor: row.route_id
+                }
+                routes.push(json);
+            });
+
             return routes;
         },
 
@@ -92,6 +122,10 @@ module.exports = function (app) {
             let json = JSON.parse(file);
             json.uuid = args.uuid;
             return json;
+        },
+
+        async getRoutes(args) {
+
         }
     };
     return {
