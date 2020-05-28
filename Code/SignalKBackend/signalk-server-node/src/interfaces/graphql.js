@@ -41,7 +41,7 @@ module.exports = function (app) {
         type Query {
             hello(name: String!): String,
             routes(first: Int!, after: Int!): [Routes],
-            route(uuid: String!): Route
+            route(uuid: String, name: String): Route
         },
 
         type Routes {
@@ -75,7 +75,46 @@ module.exports = function (app) {
     `);
 
     var root = {
-        hello: () => 'Hello World!',
+        hello: () => "Hello World!",
+
+        async route(args) {
+            let sql = `
+                SELECT route_id,uuid,distance,start,end,description,name,timestamp,source, feature.type feature_type, feature.id, geometry.type geometry_type, geometry.coordinates
+                FROM routes
+                INNER JOIN feature on routes.feature_id = feature.feature_id
+                INNER JOIN geometry on feature.geometry_id = geometry.geometry_id
+                `
+            var param;
+            if (args.uuid) {
+                param = args.uuid;
+                sql = sql + `WHERE uuid = ?; `
+            } else if (args.name) {
+                param = args.name;
+                sql = sql + `WHERE name = ?; `
+            } else {
+                return;
+            }
+            var result = new Promise((resolve, reject) => {
+                db.get(sql, [param], (err, res) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(res);
+                });
+            });
+            var row = await result;
+            if (row) {
+                row.feature = {
+                    id: row.id,
+                    type: row.feature_type,
+                    geometry: {
+                        type: row.geometry_type,
+                        coordinates: JSON.parse(row.coordinates)
+                    }
+                }
+            }
+            return row;
+        },
 
         async routes(args) {
             let sql = `
@@ -115,17 +154,6 @@ module.exports = function (app) {
             });
 
             return routes;
-        },
-
-        route(args) {
-            let file = fs.readFileSync(resourcePath + '/' + args.uuid); // Ignoring the security issues here
-            let json = JSON.parse(file);
-            json.uuid = args.uuid;
-            return json;
-        },
-
-        async getRoutes(args) {
-
         }
     };
     return {
