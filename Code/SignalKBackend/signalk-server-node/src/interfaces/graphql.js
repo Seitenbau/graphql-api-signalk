@@ -15,26 +15,38 @@
  * limitations under the License.
  */
 
-var setupDatabase = require('./database');
+var setupDatabase = require('./database.js')
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 var fs = require('fs');
 
 module.exports = function (app) {
-    'use strict';
 
     const pathPrefix = '/signalk';
     const versionPrefix = '/v1';
     const apiPathPrefix = pathPrefix + versionPrefix + '/graphql';
 
-    var db = setupDatabase();
+    let db = setupDatabase();
 
     var resourcePath = './resources/routes';
+
+    /*
+    type PageInfo {
+        endCursor: String!,
+        hasNextPage: Boolean!
+    },
+    */
 
     var schema = buildSchema(`
         type Query {
             hello(name: String!): String,
+            routes(first: Int!, after: Int!): [Routes],
             route(uuid: String, name: String): Route
+        },
+
+        type Routes {
+            node: Route!,
+            cursor: Int!
         },
 
         type Route {
@@ -76,7 +88,7 @@ module.exports = function (app) {
             if (args.uuid) {
                 param = args.uuid;
                 sql = sql + `WHERE uuid = ?; `
-            } else if(args.name) {
+            } else if (args.name) {
                 param = args.name;
                 sql = sql + `WHERE name = ?; `
             } else {
@@ -91,7 +103,7 @@ module.exports = function (app) {
                 });
             });
             var row = await result;
-            if(row) {
+            if (row) {
                 row.feature = {
                     id: row.id,
                     type: row.feature_type,
@@ -102,6 +114,46 @@ module.exports = function (app) {
                 }
             }
             return row;
+        },
+
+        async routes(args) {
+            let sql = `
+            SELECT route_id,uuid,distance,start,end,description,name,timestamp,source, feature.type feature_type, feature.id, geometry.type geometry_type, geometry.coordinates
+            FROM routes
+            INNER JOIN feature on routes.feature_id = feature.feature_id
+            INNER JOIN geometry on feature.geometry_id = geometry.geometry_id
+            WHERE route_id > ?
+            ORDER BY route_id
+            LIMIT ?;`
+            var rows;
+            var result = new Promise((resolve, reject) => {
+                db.all(sql, [args.after, args.first], (err, res) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(res);
+                });
+            });
+            var rows = await result;
+            var routes = [];
+            rows.forEach(row => {
+                let nodeJson = row;
+                row.feature = {
+                    id: row.id,
+                    type: row.feature_type,
+                    geometry: {
+                        type: row.geometry_type,
+                        coordinates: JSON.parse(row.coordinates)
+                    }
+                }
+                let json = {
+                    node: row,
+                    cursor: row.route_id
+                }
+                routes.push(json);
+            });
+
+            return routes;
         }
     };
     return {
