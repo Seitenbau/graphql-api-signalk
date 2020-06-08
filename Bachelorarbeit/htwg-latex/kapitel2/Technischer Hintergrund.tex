@@ -1,8 +1,31 @@
 \chapter{Technischer Hintergrund}
 
+Um die Arbeit verstehen zu können, müssen erst eine wichtige Technologien, welche die Arbeit behandelt, beschrieben werden. Zuerst wird erklärt was eine API eigentlich ist. Anschließend wird mit REST und GraphQL die verschiedenen Herangehensweise an eine API behandelt. Zuletzt wird noch gezeigt inwiefern das Grundprinzip von GraphQL sich von REST unterscheidet, aber auch welche Gemeinsamkeiten sie haben.
 
-Was ist eine Web-API?
-Was ist REST?
-Was ist GraphQL?
+\section{Application Programming Interface (API)}
 
-Grundlegender Vergleich
+Unter einer Anwendungs­programmier­schnittstelle (API) versteht man die Kommunikationsstelle zwischen zwei Softwarekomponenten. Die API wird dabei von einer der Komponenten festgelegt und gibt an wie die andere Komponente mit ihr komunizieren kann. Konkret werden von der API alle Daten und Funktionalitäten zur Verfügung gestellt, welche von außen zugänglich sein sollen. API ist damit aber ein sehr weitgefächerter(??) Begriff. Für diese Arbeit werden APIs behandelt, welche eine Server-Client Architektur ermöglichen. Dabei kommuniziert der Client, häufig eine App oder Webseite, mit der API eines externen Servers. GraphQL und REST sind beides Verfahren, die entwickelt worden, um diese Web-APIs aufzubauen. (?? QUELLE: API Design Buch, sehr gut und auf deutsch, wohl auch weiter unten verwenden )
+
+\section{Representational State Transfer (REST)}
+
+REST ist für sich gesehen eigentlich keine Technologie, sonden nur ein Architekturstil zum Aufbau der API verteilter Systeme. Nach Roy Fielding handelt es sich dabei, um eine Hybride Mischung verschiedener Netzwerkbasierten Architekturstile, welche durch weitere Einschränkungen eine einheitliche Anschlussschnittstelle beschreiben. Damit sich eine API RESTful nennen darf, müssen die folgenden Prinzipien erfüllt werden \cite{Fielding,2000}:
+
+\begin{itemize}
+\item \textbf{Client-Server:} Trennung der User-Oberfläche von der Datenspeicherung, wordurch die Portabilität und die Skalirbarkeit ansteigt
+\item \textbf{Zustandslos:} Jede Anfrage des Clienten zum Server muss alle benötigten Daten enthalten, um die Anfrage zu verstehen
+\item \textbf{Cacheable:} Die Daten des Servers müssen mit Cachable oder Nicht-Cachable beschriftet werden. Cachable Daten dürfen dann vom Client Cache verwendet werden
+\item \textbf{Schichtenaufbau:} Aufbau in Schichten, so dass das die einzelnen Schichten nur ihre direkten Interaktionspartner sehen
+\item \textbf{Code auf Abfrage (Optional):} Client Funktionalität soll durch downloadbare Skripte und Applets erweitert werden 
+\item \textbf{Einheitliche Schnittstelle:} Durch den Einsatz des Allgemeingültigkeitprinzips wird die Architektur vereinfacht und die die Sichtbarkeit der Interaktionen verbessert(??)
+\end{itemize}
+
+Die einheitliche Schnitstelle ist dabei nach Fielding das zentrale Feature, welches REST von anderen Architekturstilentilen unterscheidet. Um dieses Ziel zu erreichen muss die Schnitstelle weitere Einschränkungen erfüllen: Identifikation von Resourcen, Manipulation von Resourcen über Repräsentationen, Selbsterklärende Nachrichten und das Hypermedia as the engine of application state Prinzip (HATEOAS). 
+\newline
+(?? Restfulapi.net, quelle?) Hierbei werden die Begriffe Resourcen und Repräsentationen verwendet. Um diese Einschränkungen vollständig zu verstehen müssen diese Begriffe erläutert werden. Eine Resource ist jede Form einer benenbaren Information. Dabei kann es sich sowohl um klassische Dateien handelt, als auch um Services oder reale nicht virtuelle Personen. Jeder dieser Resourcen muss über einer Uniform Resource Identifier(URI) identifizierbar sein. Der Client greift dann über diese URI auf die Resource zu und erhält als Antwort eine Repräsentation der Resource. Diese Repräsentation kann verschiedene Formate annehmen, wie z.B JSON, HTML oder XML. Jedoch sollten diese Repräsentationen zur Erfüllung des HATEOAS-Prinzip wie Hypertext (??) aussehen. \cite{Fielding,2008} Unter Hypertext versteht man, dass der Text bzw. die Repräsentationen auf weitere Resourcen verlinken sollen.(??) \cite{Fielding,2009} Diese Definitionen geben die Einschränkungen eigentlich schon vor \cite{Fielding,2000}:
+
+\begin{itemize}
+\item \textbf{Identifikation von Resourcen:} Trennung der User-Oberfläche von der Datenspeicherung, wordurch die Portabilität und die Skalirbarkeit ansteigt
+\item \textbf{Manipulation von Resourcen über Repräsentationen:} Jede Anfrage des Clienten zum Server muss alle benötigten Daten enthalten, um die Anfrage zu verstehen
+\item \textbf{Selbsterklärende Nachrichten:} Die Daten des Servers müssen mit Cachable oder Nicht-Cachable beschriftet werden. Cachable Daten dürfen dann vom Client Cache verwendet werden
+\item \textbf{HATEOAS:} Aufbau in Schichten, so dass das die einzelnen Schichten nur ihre direkten Interaktionspartner sehen
+\end{itemize}
