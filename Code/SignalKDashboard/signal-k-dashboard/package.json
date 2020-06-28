@@ -1,0 +1,36 @@
+{
+  "name": "signal-k-dashboard",
+  "version": "1.0.0",
+  "description": "a demo for pwa",
+  "author": "Marko Boger",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "deploy": "gh-pages -d ./"
+  },
+  "main": "dashboard.js",
+  "dependencies": {
+    "@vue/cli-service": "^4.3.1",
+    "gh-pages": "^2.1.1",
+    "register-service-worker": "^1.7.1",
+    "vue": "^2.6.11",
+    "vue-drawer-layout": "^1.3.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-pwa": "^4.1.1"
+  },
+  "bugs": {
+    "url": "https://github.com/markoboger/signal-k-dashboard/issues"
+  },
+  "homepage": "https://markoboger.github.io/signal-k-dashboard",
+  "keywords": [
+    "pwa"
+  ],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markoboger/signal-k-dashboard.git"
+  }
+}

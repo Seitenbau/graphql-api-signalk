@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signal-K Alarm</title>
+</head>
+<body>
+    <script type="text/javascript" src="./target/scala-2.12/signal-k-alarm-jsdeps.js"></script>
+    <script type="text/javascript" src="./target/scala-2.12/signal-k-alarm-fastopt.js"></script>
+
+
+<div id="Rule">
+    <span>When
+        <select id="ExpressionSelector">
+            <option>value of </option>
+            <option>distance to </option>
+            <option>time </option>
+            <option>timer </option>
+        </select>
+    </span>
+
+    <span id="ValueExpression">
+        <span id="ValueType">
+            <select id="ValueSelector">
+                <option>Depth</option>
+                <option>Battery</option>
+                <option>Fuel</option>
+                <option>Performance</option>
+                <option>TWA</option>
+                <option>TWD</option>
+                <option>SOG</option>
+                <option>STW</option>
+                <option>AWS</option>
+                <option>TWS</option>
+                <option>VMG</option>
+                <option>Air</option>
+                <option>Water</option>
+            </select>
+        </span>
+
+        <span id="DepthExpression" class="ValueBranch">
+            is
+            <select id="DepthOperatorSelector">
+                <option>below</option>
+                <option>above</option>
+                <option>between</option>
+                <option>outside</option>
+            </select>
+            <span id="DepthSingleArgExpression">
+                <select class="Arg1Selector">
+                    <option>2 m</option>
+                    <option>5 m</option>
+                    <option>10 m</option>
+                    <option>25 m</option>
+                    <option>50 m</option>
+                    <option>100 m</option>
+                </select>
+            </span>
+
+            <span id="DepthTwoArgExpression" hidden>
+                <select id="LengthArg1Selector">
+                    <option>2 m</option>
+                    <option>5 m</option>
+                    <option>10 m</option>
+                    <option>25 m</option>
+                    <option>50 m</option>
+                    <option>100 m</option>
+                </select>
+
+             and
+            <select id="DepthArg2Selector">
+                    <option>2 m</option>
+                    <option>5 m</option>
+                    <option>10 m</option>
+                    <option>25 m</option>
+                    <option>50 m</option>
+                    <option>100 m</option>
+                </select>
+            </span>
+        </span>
+        <span id="PercentageExpression" hidden>
+            is
+            <select id="PercentageOperatorSelector">
+                <option>below</option>
+                <option>above</option>
+                <option>between</option>
+                <option>outside</option>
+            </select>
+            <span id="PercentageSingleArgExpression">
+                <select class="Arg1Selector">
+                    <option>0 %</option>
+                    <option>10%</option>
+                    <option>20%</option>
+                    <option>50%</option>
+                    <option>90 %</option>
+                    <option>100 %</option>
+                </select>
+            </span>
+            <span id="PercentageTwoArgExpression" hidden>
+                <select class="Arg1Selector">
+                    <option>0 %</option>
+                    <option>10%</option>
+                    <option>20%</option>
+                    <option>50%</option>
+                    <option>90 %</option>
+                    <option>100 %</option>
+                </select>
+                and
+                <select class="Arg2Selector">
+                         <option>0 %</option>
+                        <option>10%</option>
+                        <option>20%</option>
+                        <option>50%</option>
+                        <option>90 %</option>
+                        <option>100 %</option>
+                </select>
+            </span>
+        </span>
+        <span id="DegreeExpression" hidden>
+            is
+            <select id="DegreeOperatorSelector">
+                <option>below</option>
+                <option>above</option>
+                <option>between</option>
+                <option>outside</option>
+            </select>
+            <span id="DegreeSingleArgExpression">
+                <select class="Arg1Selector">
+                    <option>0 °</option>
+                    <option>30 °</option>
+                    <option>60 °</option>
+                    <option>90 °</option>
+                    <option>120 °</option>
+                    <option>150 °</option>
+                    <option>180 °</option>
+                    <option>210 °</option>
+                    <option>240 °</option>
+                    <option>270 °</option>
+                    <option>300 °</option>
+                    <option>330 °</option>
+                </select>
+            </span>
+            <span id="DegreeTwoArgExpression" hidden>
+                <select class="Arg1Selector">
+                    <option>0 °</option>
+                    <option>30 °</option>
+                    <option>60 °</option>
+                    <option>90 °</option>
+                    <option>120 °</option>
+                    <option>150 °</option>
+                    <option>180 °</option>
+                    <option>210 °</option>
+                    <option>240 °</option>
+                    <option>270 °</option>
+                    <option>300 °</option>
+                    <option>330 °</option>
+                </select>
+                and
+                <select class="Arg2Selector">
+                    <option>0 °</option>
+                    <option>30 °</option>
+                    <option>60 °</option>
+                    <option>90 °</option>
+                    <option>120 °</option>
+                    <option>150 °</option>
+                    <option>180 °</option>
+                    <option>210 °</option>
+                    <option>240 °</option>
+                    <option>270 °</option>
+                    <option>300 °</option>
+                    <option>330 °</option>
+                </select>
+            </span>
+        </span>
+        <span id="SpeedExpression" hidden>
+            is
+            <select id="SpeedOperatorSelector">
+                <option>below</option>
+                <option>above</option>
+                <option>between</option>
+                <option>outside</option>
+            </select>
+            <span id="SpeedSingleArgExpression">
+                <select class="Arg1Selector">
+                    <option>0 kn</option>
+                    <option>1 kn</option>
+                    <option>2 kn</option>
+                    <option>5 kn</option>
+                    <option>10 kn</option>
+                    <option>20 kn</option>
+                    <option>40 kn</option>
+                    <option>60 kn</option>
+                </select>
+            </span>
+            <span id="SpeedTwoArgExpression" hidden>
+                <select class="Arg1Selector">
+                    <option>0 kn</option>
+                    <option>1 kn</option>
+                    <option>2 kn</option>
+                    <option>5 kn</option>
+                    <option>10 kn</option>
+                    <option>20 kn</option>
+                    <option>40 kn</option>
+                    <option>60 kn</option>
+                </select>
+                and
+                <select class="Arg2Selector">
+                    <option>0 kn</option>
+                    <option>1 kn</option>
+                    <option>2 kn</option>
+                    <option>5 kn</option>
+                    <option>10 kn</option>
+                    <option>20 kn</option>
+                    <option>40 kn</option>
+                    <option>60 kn</option>
+                </select>
+            </span>
+        </span>
+        <span id="TemperatureExpression" hidden>
+            is
+            <select id="TemperatureOperatorSelector">
+                <option>below</option>
+                <option>above</option>
+                <option>between</option>
+                <option>outside</option>
+            </select>
+            <span id="TemperatureSingleArgExpression">
+                <select class="Arg1Selector">
+                    <option>-10 °C</option>
+                    <option>0°C</option>
+                    <option>10 °C</option>
+                    <option>20 °C</option>
+                    <option>30 °C</option>
+                    <option>40 °C</option>
+                    <option>50 °C</option>
+                    <option>80 °C</option>
+                    <option>100 °C</option>
+                </select>
+            </span>
+            <span id="TemperatureTwoArgExpression" hidden>
+                <select class="Arg1Selector">
+                    <option>-10 °C</option>
+                    <option>0°C</option>
+                    <option>10 °C</option>
+                    <option>20 °C</option>
+                    <option>30 °C</option>
+                    <option>40 °C</option>
+                    <option>50 °C</option>
+                    <option>80 °C</option>
+                    <option>100 °C</option>
+                </select>
+                and
+                <select class="Arg2Selector">
+                    <option>-10 °C</option>
+                    <option>0°C</option>
+                    <option>10 °C</option>
+                    <option>20 °C</option>
+                    <option>30 °C</option>
+                    <option>40 °C</option>
+                    <option>50 °C</option>
+                    <option>80 °C</option>
+                    <option>100 °C</option>
+                </select>
+            </span>
+        </span>
+    </span>
+    <span id="MarkerExpression" hidden>
+        <select id="MarkerSelector">
+            <option>Waypoint</option>
+            <option>Photo</option>
+            <option>Log Entry</option>
+            <option>Mark</option>
+        </select>
+        <span id="DistanceExpression" class="ValueBranch">
+            is
+            <select id="DistanceOperatorSelector">
+                <option>below</option>
+                <option>above</option>
+                <option>between</option>
+                <option>outside</option>
+            </select>
+            <span id="DistanceSingleArgExpression">
+                <select class="Arg1Selector">
+                    <option>100 m</option>
+                    <option>200 m</option>
+                    <option>500 m</option>
+                    <option>1 nm</option>
+                    <option>2 nm</option>
+                    <option>5 nm</option>
+                </select>
+            </span>
+
+            <span id="DistanceTwoArgExpression" hidden>
+                <select id="DistanceArg1Selector">
+                    <option>100 m</option>
+                    <option>200 m</option>
+                    <option>500 m</option>
+                    <option>1 nm</option>
+                    <option>2 nm</option>
+                    <option>5 nm</option>
+                </select>
+
+             and
+            <select id="DistanceArg2Selector">
+                    <option>100 m</option>
+                    <option>200 m</option>
+                    <option>500 m</option>
+                    <option>1 nm</option>
+                    <option>2 nm</option>
+                    <option>5 nm</option>
+                </select>
+            </span>
+        </span>
+    </span>
+    <span id="TimeExpression" hidden>
+        is
+        <span id="TimeTwoArgExpression" >
+            <select id="TimeArg1Selector">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+            </select>
+         :
+        <select id="TimeArg2Selector">
+                <option>00</option>
+                <option>10</option>
+                <option>15</option>
+                <option>20</option>
+                <option>30</option>
+                <option>40</option>
+                <option>45</option>
+                <option>50</option>
+            </select>
+        </span>
+    </span>
+
+    </div>
+    <span id="TimerExpression" hidden>
+        is
+        <span id="TimerTwoArgExpression" >
+            <select id="TimerArg1Selector">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+            </select>
+         :
+        <select id="TimerArg2Selector">
+                <option>00</option>
+                <option>10</option>
+                <option>15</option>
+                <option>20</option>
+                <option>30</option>
+                <option>40</option>
+                <option>45</option>
+                <option>50</option>
+            </select>
+        </span>
+    </span>
+</div>
+<div id="Action1">
+    <span id="ActionExpression">, then
+        <select id="ActionSelector">
+            <option>sound</option>
+            <option>warn</option>
+            <option>log</option>
+            <option>send</option>
+            <option>deactivate</option>
+            <option>reactivate</option>
+            <option>reset</option>
+            <option>restart</option>
+        </select>
+    </span>
+    <span id="SoundAction">
+        <select id="SoundSelector">
+            <option>Alarm</option>
+            <option>Beep</option>
+            <option>Bell</option>
+            <option>Horn</option>
+            <option>Whistle</option>
+        </select>
+        <select id="RepeatSelector">
+            <option>once</option>
+            <option>twice</option>
+            <option>three times</option>
+            <option>max 20 sec</option>
+            <option>max 1 min</option>
+            <option>max 3 min</option>
+            <option>max 10 min</option>
+            <option>until checked</option>
+        </select>
+    </span>
+    <span id="WarnAction" hidden>
+        with message
+        <input type="text">
+    </span>
+    <span id="LogAction" hidden>
+        with LogEntry
+        <input type="text">
+    </span>
+    <span id="SendAction" hidden>
+        <select id="AdresseeSelector">
+            <option>me</option>
+            <option>Skipper</option>
+            <option>Obman</option>
+            <option>Owner</option>
+            <option>Service</option>
+        </select>
+        message
+        <input type="text">
+    </span>
+    <span id="DeactivateAction" hidden>
+        this rule
+    </span>
+    <span id="ReactivateAction" hidden>
+        this rule
+        <select id="ReactivateSelector">
+            <option>after 0:01</option>
+            <option>after 0:05</option>
+            <option>after 1:00</option>
+            <option></option>
+        </select>
+    </span>
+    <span id="ResetAction" hidden>
+        <select id="ResetSelector">
+            <option>Timer(0:00)</option>
+            <option>Timer(-0:05)</option>
+            <option>Timer(-0:10)</option>
+            <option>Timer(-0:20)</option>
+            <option>Timer(-1:00)</option>
+        </select>
+    </span>
+    <span id="RestartAction" hidden>
+        Timer
+    </span>
+
+    <span id="addAction"><button>+</button></span>
+</div>
+    <div id="Action2">
+    <span id="Action2Expression">and
+        <select id="Action2Selector">
+            <option>sound</option>
+            <option>warn</option>
+            <option>log</option>
+            <option>send</option>
+            <option>deactivate</option>
+            <option>activate</option>
+            <option>reset</option>
+            <option>restart</option>
+        </select>
+    </span>
+        <span id="Sound2Action">
+        <select id="Sound2Selector">
+            <option>Alarm</option>
+            <option>Beep</option>
+            <option>Bell</option>
+            <option>Horn</option>
+            <option>Whistle</option>
+        </select>
+        <select id="Repeat2Selector">
+            <option>once</option>
+            <option>twice</option>
+            <option>three times</option>
+            <option>max 20 sec</option>
+            <option>max 1 min</option>
+            <option>max 3 min</option>
+            <option>max 10 min</option>
+            <option>until checked</option>
+        </select>
+
+    </span>
+        <span id="remAction"><button>-</button></span>
+</div>
+<div><textarea rows="10" cols="80">
+When timer is -0:05, sound Beep once, warn "Start in 5 min"
+When timer is -0:04, sound Beep twice, warn "Start in 4 min"
+When timer is -0:01, sound Beep three times, warn "Start in 1 min"
+When timer is  0:00, sound Gong once, warn "Start now", reset Timer(-0:05), restart Timer
+
+When value of Depth is below 10 m, sound Beep once, warn "Entering shallow waters", deactivate
+When value of Depth is below 2.50 m, sound	LongBeep twice, warn "Shallow water", reacitvate
+When value of Log is above 1000 nm, sound Beep three times, warn "Check Oil", log
+When value of Fuel is below 20%, warn "Fuel is low", reactivate
+When value of Fuel is below 10%, sound Beep once, warn "Refuel"
+When value of TWA is outside 150 and 210, sound	Alarm1	3 min,warn "Wind direction has changed", reactivate
+When distance to Marker17 is below	1 nm, sound  Beep once, warn "Approaching Marker 17", deactivate
+When distance to Anker is above 100 m, sound Alarm1	until checked, warn "Anker drifting", reactivate
+
+When timer is 0:20 sound Beep once, warn "Time for Lookout" reset Timer, start Timer
+When time is 0:00 reset Daylog
+When value of Battery is below	20%, send "Charge Battery" to me, reactivate after 1:00
+When value of TWS is above 40kn, send "Boat in Storm" to me, reactivate after 1:00
+</textarea></div>
+
+
+</body>
+</html>

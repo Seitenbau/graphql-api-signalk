@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="dashboard.css">
+        <link rel="manifest" href="manifest.json" crossorigin="use-credentials"/>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="background">
+        <div id="dashboard" class="grid-container">
+            <wind-rose>
+                <rose-gauge class="gauge outerRose" id="gauge1" abbreviation="TWD" :degree=  "twd" color="darkgreen">  </rose-gauge>
+                <rose-gauge class="gauge innerRose" id="gauge2" abbreviation="TWA" :degree=  "twa" color="darkgreen">  </rose-gauge>
+                <rose-force class="force inward"     abbreviation="TWS" :strength="tws" :degree="twd" color="darkgreen">  </rose-force>
+    
+                <rose-gauge class="gauge outerRose" id="gauge3" abbreviation="AWD" :degree=  "awd" color="ForestGreen">  </rose-gauge>
+                <rose-gauge class="gauge innerRose" id="gauge4" abbreviation="AWA" :degree=  "awa" color="ForestGreen">  </rose-gauge>
+                <rose-force class="force inward"     abbreviation="AWS" :strength="aws" :degree ="awd" color="ForestGreen">  </rose-force>
+    
+                <rose-gauge class="gauge outerRose" id="gauge5" abbreviation="COG" :degree=  "cog" color="RoyalBlue">  </rose-gauge>
+                <rose-gauge class="gauge innerRose" id="gauge6" abbreviation="Drag" :degree=  "drag" color="RoyalBlue">  </rose-gforce force auge>
+    
+                <rose-force class="force outward"    abbreviation="SOG" :strength="sog" color="royalblue">  </rose-fmarker orce>
+                <rose-force class="force outward"    abbreviation="STW" :strength="tws" color="darkblue">  </rose-fmarker orce>
+    
+                <rose-marker class="marker outerRose" abbreviation="WP" :degree="wp" color="green">  </rose-marker>
+                <rose-marker class="marker innerRose" abbreviation="OT" :degree="ot" color="blue">  </rose-marker>
+            </wind-rose>
+ 
+            <data-box class="textbox"   id="textbox1" color="black">{{lat}} <br> {{lon}}</data-box>   
+            <data-box class="textbox"   id=textbox2 color="black">{{time}} <br> {{countdown}}</data-box>
+            <data-box class="textbox"   id=textbox3 color="black">{{rpm}} <br> {{log}}</data-box>
+
+            <data-box class="topbox"    description="Heading" color="darkblue"><three-digit-data :data=heading></three-digit-data></data-box>
+            <data-box class="bottombox" description="Depth" unit="m" color="red"><two.two-digit-data :data=depth></two.two-digit-data></data-box>
+
+            <data-box class="centerbox" id="centerbox1" abbreviation="STW"                 icon="@" description="Speed thru Water" unit="kn" color="darkblue"><two.two-digit-data :data=stw></two.two-digit-data></data-box>
+            <data-box class="centerbox" id="centerbox2" abbreviation="SOG"                 icon="@" description="Speed over Grnd"  unit="kn" color="RoyalBlue"><two.two-digit-data :data=sog></two.two-digit-data> </data-box>
+            <data-box class="centerbox" id="centerbox3" abbreviation="AWS"                 icon="@" description="App. Wind Speed"  unit="kn" color="ForestGreen"><two.two-digit-data :data=aws></two.two-digit-data></data-box>
+            <data-box class="centerbox" id="centerbox4" abbreviation="TWS"                 icon="@" description="True Wind Speed"  unit="kn" color="darkgreen"><two.two-digit-data :data=tws></two.two-digit-data></data-box>
+        
+            <data-box class="centerbox" id="centerbox5-landscape" abbreviation="VMG"                 icon="@" description="Vel. Made Good"  unit="kn" color="SlateBlue"><two.two-digit-data :data=vmg></two.two-digit-data></data-box>
+            <data-box class="centerbox" id="centerbox6-landscape" abbreviation="VMG"                 icon="@" description="Vel. Made Good"  unit="kn" color="SlateBlue"><two.two-digit-data :data=vmg></two.two-digit-data></data-box>
+            <data-box class="centerbox" id="centerbox7" abbreviation="Target"              icon="@" description="Target Speed"  unit="kn" color="DeepSkyBlue"><two.two-digit-data :data=target></two.two-digit-data></data-box>
+            <data-box class="centerbox" id="centerbox8" abbreviation="Perf"                icon="@" description="Performance"  unit="%" color="Indigo"><two.two-digit-data :data=perf></two.two-digit-data></data-box>
+    
+            <data-box class="rimbox"    id="rimbox1-1-landscape"  abbreviation="STW" aggregate="Avg" icon="@" description="Speed thru Water" unit="kn" color="darkblue"><two.two-digit-data :data=stw_avg></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox1-2-landscape"  abbreviation="SOG" aggregate="Avg" icon="@" description="Speed over Grnd"  unit="kn" color="RoyalBlue"><two.two-digit-data :data=sog_avg></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox1-3-landscape"  abbreviation="TWS" aggregate="Avg" icon="@" description="True Wind Speed"  unit="kn" color="darkgreen"><two.two-digit-data :data=tws_avg></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox1-4-landscape"  abbreviation="AWS" aggregate="Avg" icon="@" description="App. Wind Speed"  unit="kn" color="ForestGreen"><two.two-digit-data :data=aws_avg></two.two-digit-data></data-box>
+
+            <data-box class="rimbox"    id="rimbox2-1-landscape"  abbreviation="Air"                icon="@" description="Air Temp"        unit="C"  color="orange"><two.two-digit-data :data=temp></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox2-2-landscape"  abbreviation="Bat"                 icon="@" description="Battery"         unit="%"  color="olive"><two.two-digit-data :data=bat></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox2-3-landscape"  abbreviation="Fuel"                icon="@" description="Fuel Level"      unit="%"  color="steelblue"><two.two-digit-data :data=fuel></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox2-4-landscape"  abbreviation="VMG" aggregate="Avg" icon="@" description="Vel. Made Good"  unit="kn" color="SlateBlue"><two.two-digit-data :data=vmg_avg></two.two-digit-data></data-box>
+        
+            <data-box class="rimbox"    id="rimbox3-1-landscape"  abbreviation="STW" aggregate="Max" icon="@" description="Speed thru Water" unit="kn" color="darkblue"><two.two-digit-data :data=stw_max></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox3-2-landscape"  abbreviation="SOG" aggregate="Max" icon="@" description="Speed over Grnd"  unit="kn" color="RoyalBlue"><two.two-digit-data :data=sog_max></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox3-3-landscape"  abbreviation="TWS" aggregate="Max" icon="@" description="True Wind Speed"  unit="kn" color="darkgreen"><two.two-digit-data :data=tws_max></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox3-4-landscape"  abbreviation="AWS" aggregate="Max" icon="@" description="App. Wind Speed"  unit="kn" color="ForestGreen"><two.two-digit-data :data=aws_max></two.two-digit-data></data-box>
+
+            <data-box class="rimbox"    id="rimbox4-1-landscape"  abbreviation="Water"                icon="@" description="Water Temp"      unit="C"  color="Aqua"><two.two-digit-data :data=water_temp></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox4-2-landscape"  abbreviation="Bat2"                 icon="@" description="Battery"         unit="%"  color="olive"><two.two-digit-data :data=bat2></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox4-3-landscape"  abbreviation="Fuel2"                icon="@" description="Fuel 2"          unit="%"  color="steelblue"><two.two-digit-data :data=fuel2></two.two-digit-data></data-box>
+            <data-box class="rimbox"    id="rimbox4-4-landscape"  abbreviation="VMG" aggregate="Max" icon="@" description="App. Wind Speed"  unit="kn" color="ForestGreen"><two.two-digit-data :data=aws_max></two.two-digit-data></data-box>
+        
+        </div>
+    </div>
+       
+        <script src="./dashboard.js"></script>
+        <script type="text/javascript+module" src="./src/registerServiceWorker.js"></script>
+
+    </body>
+</html>
