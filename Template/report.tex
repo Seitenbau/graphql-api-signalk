@@ -1,0 +1,109 @@
+
+\pdfminorversion=7
+\documentclass[german]{htwg-report}
+
+\usepackage{listings}
+\usepackage{acronym}
+\usepackage[nottoc]{tocbibind}
+\usepackage{scrextend}
+\usepackage{csquotes}
+\usepackage{biblatex}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[T1]{fontenc}% wichtig für Trennung von Wörtern mit Umlauten
+
+
+\addbibresource{report.bib}
+
+\definecolor{lightgray}{RGB}{211,211,211}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset
+{ %Formatting for code in appendix
+    language=JavaScript,
+    basicstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    backgroundcolor=\color{lightgray}
+}
+
+\begin{document}
+
+
+%% Use Roman numerals for the page numbers of the title pages and table of
+%% contents.
+\frontmatter
+
+%% 'reporttype' add background elements to the cover / front page
+%% possible values are:
+%% bachelor	--> B S C
+%% master	--> M S C
+%% other		--> none
+\reporttype{bachelor}
+
+\reporttypetext{Bachelor These}
+
+\title[Titel]{Titel}
+
+\author{Vorname Nachname}
+\studentnumber{Matrikelnummer}
+\studentemail{studentmailadress}
+
+\doclocation{Konstanz}
+\docdate{30ter Juni 2020}
+
+\makecover[]
+%          
+%% Include an optional title page.
+\input{title}
+
+\input{erklärung}
+\input{abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\renewcommand{\lstlistoflistings}{\begingroup
+\tocfile{\lstlistingname}{lol}
+\endgroup}
+\renewcommand{\lstlistingname}{Quellcodeverzeichnis}
+\lstlistoflistings
+\input{Abkürzungsverzeichnis}
+
+%% Use Arabic numerals for the page numbers of the chapters.
+\mainmatter
+
+\input{chapter-1}
+
+
+%% Use letters for the chapter numbers of the appendices.
+\appendix
+
+%\input{appendix-a}
+
+\printbibliography[
+heading=bibintoc,
+]
+
+\printbibliography[heading=subbibintoc,type=article,title={Articles only}]
+
+\end{document}
+
