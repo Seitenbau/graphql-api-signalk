@@ -1,20 +1,20 @@
 \chapter{Einleitung}
 
-Parallel zur Verbreitung des Internets, ist die versendete Datenmenge stark angestiegen. Immer mehr Nutzer wollen auf immer größere werdende Datenmengen möglichst schnell zugreifen. Gleichzeitig ist der Anteil der Nutzer, welche über mobile Endgeräte auf die Daten zugreifen, immer weiter angestiegen. \cite{Enge,2019}
-Diese Entwicklungen resultieren in neuen Anforderungen für die Datenübertragung. Zum Einen brauchen vor allem mobile Endnutzer eine schnelle und datensparende Verbindung. Zum Anderen führt die erhöhte Vielfalt der Geräte auch dazu, dass die benötigten Daten sich von Nutzer zu Nutzer stark unterscheiden können.
+Parallel zur Verbreitung des Internets ist die versendete Datenmenge stark angestiegen. Immer mehr Nutzer wollen auf immer größer werdende Datenmengen möglichst schnell zugreifen. Gleichzeitig ist der Anteil der Nutzer, welche über mobile Endgeräte auf die Daten zugreifen, weiter angestiegen \parencite{Enge2019}.
+Diese Entwicklungen resultieren in neuen Anforderungen für die Datenübertragung. Zum einen brauchen vor allem mobile Endnutzer eine schnelle und datensparende Verbindung. Zum anderen führt die erhöhte Vielfalt der Geräte auch dazu, dass die benötigten Daten sich von Nutzer zu Nutzer stark unterscheiden können.
 \\
-Diese Anforderungen müssen von der Schnitstelle zwischen Server und Client erfüllt werden. Mit der aktuell wohl am weitesten verbreiteste Technologie REST wird dies schnell sehr aufwändig. Den hier treten häufig Probleme wie Over- und Underfetching auf. Auch Facebook hatte damit zu kämpfen und entschied sich daraufhin eine neue Technologie zu entwickeln - GraphQL. Diese sollten einen flexibilen, datensparenden Zugriff auf die entsprechenden APIs ermöglichen. 
+Diese Anforderungen müssen von der Schnittstelle zwischen Server und Client erfüllt werden. Mit der aktuell am weitesten verbreiteten Technologie REST wird dies schnell sehr aufwändig. Denn hier treten häufig Probleme wie Over- und Underfetching auf, d.\,h. bei einer Datenübertagungen werden zu viele oder zu wenige Daten übertragen. Auch Facebook hatte damit zu kämpfen und entschied sich daraufhin eine neue Technologie zu entwickeln - GraphQL. Diese sollten einen flexiblen, datensparenden Zugriff auf die entsprechenden APIs ermöglichen. 
 
 \section{Ziel der Arbeit}
 
-Wann der Einsatz von GraphQL sinnvoll ist lässt sich aber nicht pauschal sagen. Die Sprache ermöglicht zwar neue Herangehensweisen an eine API, doch könnten andere bekannte Funktionalitäten darunter leiden. Ziel der nachfolgenden Arbeit ist es, für Unternehmen und Entwickler eine Entscheidungshilfe zu formulieren, wann sich der Einsatz von GraphQL gegenüber REST lohnen könnte. Konkret sollen dabei folgende Fragen beantwortet werden:
+Wann der Einsatz von GraphQL sinnvoll ist, lässt sich nicht pauschal sagen. Die Sprache ermöglicht zwar neue Herangehensweisen an eine API, doch könnten andere bekannte Funktionalitäten darunter leiden. Ziel der nachfolgenden Arbeit ist es, für Unternehmen und Entwickler eine Entscheidungshilfe zu formulieren, wann sich der Einsatz von GraphQL gegenüber REST lohnen könnte. Konkret sollen dabei folgende Fragen beantwortet werden:
 
 \begin{itemize}
 \item Welche funktionellen Aspekte sind für den Aufbau der meisten APIs erforderlich?
 \item Wie können diese Aspekte in GraphQL und REST umgesetzt werden?
-\item In welchen Fällen ist der Einsatz welcher Technologie zu empfehlen? (??)
+\item In welchen Fällen ist der Einsatz welcher Technologie zu empfehlen?
 \end{itemize}
 
 \section{Vorgehensweise}
 
-Um diese Fragen zu beantworten wird erst aus aktueller Literatur entnommen, welche Aspekte entscheidendend für den Aufbau einer guten API sind. Anschließend wird über Codebeispiele, welche sich auf eine bereits existiernde Segel-API beziehen, untersucht(??), ob und wie diese in GraphQL und REST implementiert werden können. Diese Implementierungen werden daraufhin gegenübergestellt und analysiert. Zuletzt werden praxisnahe Use-Cases formuliert und mit den Ergebnissen der vorherigen Analyse gewichtet(??). 
+Um diese Fragen zu beantworten, wird erst aus aktueller Literatur entnommen, welche Aspekte entscheidend für den Aufbau einer guten API sind. Anschließend wird über Codebeispiele, welche sich auf eine bereits existierende Segel-API beziehen, untersucht, ob und wie diese in GraphQL und REST implementiert werden können. Diese Implementierungen werden daraufhin gegenübergestellt und analysiert. Zuletzt werden praxisnahe Use-Cases formuliert und anhand der Ergebnisse der Analyse eine Empfehlung gegeben, welche Technologie man für welchen Zweck auswählen sollte. 

@@ -1,31 +1,92 @@
-\chapter{Technischer Hintergrund}
+\chapter{Technischer Hintergrund}\label{technisch}
 
-Um die Arbeit verstehen zu können, müssen erst eine wichtige Technologien, welche die Arbeit behandelt, beschrieben werden. Zuerst wird erklärt was eine API eigentlich ist. Anschließend wird mit REST und GraphQL die verschiedenen Herangehensweise an eine API behandelt. Zuletzt wird noch gezeigt inwiefern das Grundprinzip von GraphQL sich von REST unterscheidet, aber auch welche Gemeinsamkeiten sie haben.
+Um die Arbeit verstehen zu können, müssen erst einige wichtige Technologien, welche die Arbeit behandelt, beschrieben werden. Zuerst wird erklärt, was eine API eigentlich ist. Anschließend werden mit REST und GraphQL die verschiedenen Herangehensweisen an eine API behandelt. Zuletzt wird noch gezeigt, inwiefern das Grundprinzip von GraphQL sich von REST unterscheidet, aber auch welche Gemeinsamkeiten sie haben.
 
 \section{Application Programming Interface (API)}
 
-Unter einer Anwendungs­programmier­schnittstelle (API) versteht man die Kommunikationsstelle zwischen zwei Softwarekomponenten. Die API wird dabei von einer der Komponenten festgelegt und gibt an wie die andere Komponente mit ihr komunizieren kann. Konkret werden von der API alle Daten und Funktionalitäten zur Verfügung gestellt, welche von außen zugänglich sein sollen. API ist damit aber ein sehr weitgefächerter(??) Begriff. Für diese Arbeit werden APIs behandelt, welche eine Server-Client Architektur ermöglichen. Dabei kommuniziert der Client, häufig eine App oder Webseite, mit der API eines externen Servers. GraphQL und REST sind beides Verfahren, die entwickelt worden, um diese Web-APIs aufzubauen. (?? QUELLE: API Design Buch, sehr gut und auf deutsch, wohl auch weiter unten verwenden )
+Unter einem \ac{api} versteht man die Kommunikationsstelle zwischen zwei Softwarekomponenten. Die API wird dabei von einer der Komponenten festgelegt und gibt an, wie die andere Komponente mit ihr kommunizieren kann. Konkret werden von der \ac{api} alle Daten und Funktionalitäten zur Verfügung gestellt und dokumentiert, welche von außen zugänglich sein sollen. Eine \ac{api} kann dabei nach \parencite{Spichale2019} auf zwei Arten heruntergebrochen werden : 
+
+\begin{itemize}
+\item \textbf{Programmiersprachen-APIs:} Programmiersprachen-APIs werden beispielsweise von Bibliotheken angeboten und sind sprach- und plattformabhängig.
+\item \textbf{Remote-APIs:} Die Datenübertragung bei Remote-APIs wird über Protokolle wie das \ac{HTTP} abgewickelt. Da \ac{HTTP} hauptsächlich im Internet verwendet wird, heißen solche HTTP-APIs häufig Web-APIs. Ihr Vorteil ist, dass sie sprach- und plattformunabhängig sind.
+\end{itemize}
+
+\ac{api}s, welche REST und GraphQL nutzen, sind dabei den Remote-APIs zuzuordnen. Bei beiden werden zusätzlich noch die meisten \ac{api}s als Web-APIs aufgebaut, d.\,h. sie nutzten \ac{HTTP}.
 
 \section{Representational State Transfer (REST)}
 
-REST ist für sich gesehen eigentlich keine Technologie, sonden nur ein Architekturstil zum Aufbau der API verteilter Systeme. Nach Roy Fielding handelt es sich dabei, um eine Hybride Mischung verschiedener Netzwerkbasierten Architekturstile, welche durch weitere Einschränkungen eine einheitliche Anschlussschnittstelle beschreiben. Damit sich eine API RESTful nennen darf, müssen die folgenden Prinzipien erfüllt werden \cite{Fielding,2000}:
+Der \ac{REST} Architekturstil wurde im Jahre 2000 von Roy Fielding im Rahmen seiner Dissertation veröffentlicht. \ac{REST} ist ein Architekturstil zum Aufbau einer \ac{api} für verteilter Systeme. Nach Roy Fielding handelt es sich dabei um eine hybride Mischung verschiedener, netzwerkbasierter Architekturstile, welche durch weitere Einschränkungen eine einheitliche Anschlussschnittstelle beschreiben. Damit sich eine API RESTful nennen darf, müssen die folgenden Prinzipien erfüllt werden \parencite{Fielding2000}:
 
 \begin{itemize}
-\item \textbf{Client-Server:} Trennung der User-Oberfläche von der Datenspeicherung, wordurch die Portabilität und die Skalirbarkeit ansteigt
-\item \textbf{Zustandslos:} Jede Anfrage des Clienten zum Server muss alle benötigten Daten enthalten, um die Anfrage zu verstehen
-\item \textbf{Cacheable:} Die Daten des Servers müssen mit Cachable oder Nicht-Cachable beschriftet werden. Cachable Daten dürfen dann vom Client Cache verwendet werden
-\item \textbf{Schichtenaufbau:} Aufbau in Schichten, so dass das die einzelnen Schichten nur ihre direkten Interaktionspartner sehen
-\item \textbf{Code auf Abfrage (Optional):} Client Funktionalität soll durch downloadbare Skripte und Applets erweitert werden 
-\item \textbf{Einheitliche Schnittstelle:} Durch den Einsatz des Allgemeingültigkeitprinzips wird die Architektur vereinfacht und die die Sichtbarkeit der Interaktionen verbessert(??)
+\item \textbf{Client-Server:} Trennung der User-Oberfläche von der Datenspeicherung, wodurch die Portabilität und die Skalierbarkeit ansteigt.
+\item \textbf{Zustandslos:} Jede Anfrage des Clients zum Server muss alle benötigten Daten enthalten, um die Anfrage zu verstehen.
+\item \textbf{Cachebar:} Die Daten des Servers müssen so gekennzeichnet werden, das deutlich ist, ob sie cachebar oder nicht-cachebar sind. Cachebare Daten dürfen dann vom Client Cache verwendet werden.
+\item \textbf{Einheitliches Interface:} Durch den Einsatz des Allgemeingültigkeitsprinzips wird die Architektur vereinfacht und die die Sichtbarkeit der Interaktionen verbessert.
+\item \textbf{Schichtenaufbau:} Aufbau in Schichten, so dass die einzelnen Schichten nur ihre direkten Interaktionspartner sehen.
+\item \textbf{Code auf Abfrage (Optional):} Client Funktionalität soll durch downloadbare Skripte und Applets erweitert werden .
 \end{itemize}
 
-Die einheitliche Schnitstelle ist dabei nach Fielding das zentrale Feature, welches REST von anderen Architekturstilentilen unterscheidet. Um dieses Ziel zu erreichen muss die Schnitstelle weitere Einschränkungen erfüllen: Identifikation von Resourcen, Manipulation von Resourcen über Repräsentationen, Selbsterklärende Nachrichten und das Hypermedia as the engine of application state Prinzip (HATEOAS). 
-\newline
-(?? Restfulapi.net, quelle?) Hierbei werden die Begriffe Resourcen und Repräsentationen verwendet. Um diese Einschränkungen vollständig zu verstehen müssen diese Begriffe erläutert werden. Eine Resource ist jede Form einer benenbaren Information. Dabei kann es sich sowohl um klassische Dateien handelt, als auch um Services oder reale nicht virtuelle Personen. Jeder dieser Resourcen muss über einer Uniform Resource Identifier(URI) identifizierbar sein. Der Client greift dann über diese URI auf die Resource zu und erhält als Antwort eine Repräsentation der Resource. Diese Repräsentation kann verschiedene Formate annehmen, wie z.B JSON, HTML oder XML. Jedoch sollten diese Repräsentationen zur Erfüllung des HATEOAS-Prinzip wie Hypertext (??) aussehen. \cite{Fielding,2008} Unter Hypertext versteht man, dass der Text bzw. die Repräsentationen auf weitere Resourcen verlinken sollen.(??) \cite{Fielding,2009} Diese Definitionen geben die Einschränkungen eigentlich schon vor \cite{Fielding,2000}:
+Das einheitliche Interface ist dabei nach Fielding das zentrale Feature, welches \ac{REST} von anderen Architekturstilen unterscheidet. Um dieses Ziel zu erreichen, muss das Interface weitere Einschränkungen erfüllen: Identifikation von Ressourcen, Manipulation von Ressourcen über Repräsentationen, Selbsterklärende Nachrichten und das \ac{HATEOAS} Prinzip \parencite{Fielding2000}.\\
+Hierbei werden die Begriffe Ressourcen und Repräsentationen verwendet. Eine Ressource ist jede Form einer benennbaren Information. Dabei kann es sich sowohl um klassische Dateien handeln als auch um Services oder reale, nicht virtuelle Personen. Jeder dieser Ressourcen muss über einen \ac{URI} identifizierbar sein \parencite{Spichale2019}. Der Client greift dann über diese URI auf die Ressource zu und erhält als Antwort eine Repräsentation der Ressource. Diese Repräsentation kann verschiedene Formate annehmen, wie z.\,B. JSON, HTML oder XML. Jedoch sollten diese Repräsentationen zur Erfüllung des \ac{HATEOAS}-Prinzip wie Hypertext  aussehen \parencite{Fielding2008}. Unter Hypertext versteht man, dass der Text bzw. die Repräsentationen auf weitere Ressourcen verlinken sollen \parencite{Fielding2009}.  Diese Definitionen geben die Einschränkungen eigentlich schon vor \parencite{Fielding2000}:
 
 \begin{itemize}
-\item \textbf{Identifikation von Resourcen:} Trennung der User-Oberfläche von der Datenspeicherung, wordurch die Portabilität und die Skalirbarkeit ansteigt
-\item \textbf{Manipulation von Resourcen über Repräsentationen:} Jede Anfrage des Clienten zum Server muss alle benötigten Daten enthalten, um die Anfrage zu verstehen
-\item \textbf{Selbsterklärende Nachrichten:} Die Daten des Servers müssen mit Cachable oder Nicht-Cachable beschriftet werden. Cachable Daten dürfen dann vom Client Cache verwendet werden
-\item \textbf{HATEOAS:} Aufbau in Schichten, so dass das die einzelnen Schichten nur ihre direkten Interaktionspartner sehen
+\item \textbf{Identifikation von Ressourcen:} Jede Ressource ist über einen eindeutigen \\ Schlüssel, der \ac{URI}, identifizierbar.
+\item \textbf{Manipulation von Ressourcen über Repräsentationen:} Jede Anfrage oder Änderung der Ressourcen wird über eine Repräsentation durchgeführt. 
+\item \textbf{Selbsterklärende Nachrichten:} Alle Informationen, welche nötig sind, um eine Anfrage zu verstehen, müssen mitgeschickt werden.
+\item \textbf{HATEOAS:} Informationen über weitere Möglichkeiten sollen über Links mitgeschickt werden.
+\end{itemize}
+
+\section{GraphQL}
+
+GraphQL wurde ab 2012 von Facebook intern entwickelt, um ihre Probleme mit \ac{REST} zu umgehen. Im Laufe der Zeit ist dem Konzern dabei bewusst geworden, dass der Nutzen von GraphQL über Facebook hinausgeht. Darum wurde die GraphQL-Spezifikation 2015 öffentlich zugängig gemacht \parencite{Facebook2018}.
+
+Bei GraphQL handelt es sich um Kombination aus eine Abfragesprache für \ac{api}s und einer Laufzeitumgebung um diese Anfragen serverseitig mit Daten zu füllen \parencite{GraphQL2018}. Im Kontext von GraphQL werden dabei drei grundlegende  Komponenten verwendet \parencite{Ionos2019}:
+
+\begin{itemize}
+\item \textbf{Abfragesprache:} Die Abfragesprache ermöglicht den Zugriff auf die GraphQL-\ac{api}. Dabei können die Abfragen durch den Clienten flexibel formuliert werden, so kann bspw. genau angegeben werden, welche Datenfelder benötigt oder verändert werden. 
+\item \textbf{Typsystem:} Das Typsystem wird genutzt, um für jede Sever-Implementierung eine individuelles Schema zu definieren. Dieses Schema gibt genau an, welche Daten der Client anfragen kann. Gleichzeitig dient es aber auch als Basis, um die Anfragen zur Laufzeit zu validieren. \ref{lst:schema} zeigt einen Beispielimplementierung eines Schemas.
+\item \textbf{Laufzeitumgebung:} Diese Validierung wird von der Laufzeitumgebung übernommen. Zusätzlich werden hier die Anfragen geparst, so dass anschließend die Daten für die Antworten durch den Servercode ermittelt werden können. Anschließend serialisiert die Laufzeitumgebung die Antwort noch. Implementierungen dieser Laufzeitumgebung gibt es bereits in vielen Programmiersprachen.
+\end{itemize}
+
+\begin{lstlisting}[caption={Beispielstruktur eines Schemas},captionpos=b,label=lst:schema] 
+        type Query {
+            route(name: String): Route
+        }
+
+        type Route {
+            name: String
+            distance: Float
+            start: String
+            end: String
+            description: String
+        }
+\end{lstlisting}
+
+Zusammengenommen entsteht daraus ''ein hochgradig wandelbares API-Gerüst'' \\ \parencite{Ionos2019}, wodurch verschiedenste Plattformen effizient angebunden werden können. Dieser Effekt wird noch verstärkt, da das ganze Design von GraphQL auf Frontendentwickler zugeschnitten ist. Dabei lässt sich das Design nach \parencite{GraphQL2018} auf folgende Prinzipen herunterbrechen: 
+
+\begin{itemize}
+\item \textbf{Hierarchisch:} Die Datenstruktur des Schemas sollte hierarchisch aufgebaut sein. Eine GraphQL Abfrage folgt dieser Struktur und ist somit genauso aufgebaut, wie die Daten, welche sie zurückerhält. Dadurch werden auch kompliziertere, mehrschichtige Anfragen möglich.
+\item \textbf{Produktorientiert:} GraphQLs Sprache und Laufzeitumgebung soll die Anforderungen von Frontendentwicklungen erfüllen und ermöglichen.
+\item \textbf{Starke Typisierung:} Jede GraphQL Server-Implementierung definiert ein eigenes Typesystem. Dieses Typesystem kann abgefragt werden und die Abfragen können validiert werden. Dadurch kann der Server Struktur und Art der Antwort garantieren.
+\item \textbf{Clientspezifische Abfragen:} Clients können genau angeben, welche Daten sie benötigen. Dabei wird auf jedes einzelne Feld spezifisch eingegangen.
+\item \textbf{Introspektiv:} GraphQL ist introspektiv. Das heißt, die Struktur des definierten Schemas muss über eine GraphQL Abfrage selbst abgefragt werden können.
+\end{itemize}
+
+\section{GraphQL und REST - Implementierungsunterschiede}
+
+Durch die strikten Vorgaben von GraphQL haben verschiedenen Implementierungen hier sehr viele Gemeinsamkeiten. Bei \ac{REST} kann die Implementierung jedoch wesentlich flexibler interpretiert werden. Das Problem hierbei ist aber, dass mehr Aufwand vom Entwickler betrieben werden muss, um eine wirklich RESTful-API zu erzielen. Die meisten REST-APIs erfüllen nicht alle Voraussetzungen, vor allem das einheitliche Interface, der eigentlich ausschlaggebende Punkt, wird häufig nicht vollständig implementiert \parencite{Dupree2018}. Das liegt aber nicht nur an der Ignoranz der Entwickler, sondern auch daran, dass eine vollständige Implementierung des einheitlichen Interfaces auch Nachteile mit sich zieht. Fielding selber sagt, dass durch die Standardisierung der Datenstruktur die Effizienz teilweise auf der Strecke bleibt \parencite{Fielding2000}. Für den Kontext dieser Arbeit werden vollständige RESTful-APIs betrachtet. Um eine Übersichtlichkeit zu gewähren, werden aber \ac{HATEOAS}-Elemente meistens weggelassen.\\
+Für beide Technologien sind verschiedene Faktoren unabhängig von der Implementierung. Diese werden nun verglichen:
+
+\begin{itemize}
+ \item \textbf{Gemeinsamkeiten:} 
+\begin{itemize}
+ \item Zustandslos: Beide Implementierungen sind zustandslos, d.\,h. alle benötigten Information zur vollständigen Bearbeitung der Anfrage müssen vom Client mitgeschickt werden.
+ \item HTTP: Beide Implementierungen können theoretisch auch über andere Verfahren als \ac{HTTP} versendet werden, jedoch hat sich \ac{HTTP} als der Standard verbreitet. Vor allem \ac{REST} funktioniert durch die CRUD-Methoden sehr gut über \ac{HTTP}.
+\end{itemize}
+ \item \textbf{Unterschiede:} 
+\begin{itemize}
+ \item Endpunkte: Während bei \ac{REST} für jede Ressource ein separater Endpunkt bestehen muss, hat GraphQL nur genau einen Endpunkt.
+\item CRUD: Jede Anfrage bei \ac{REST} über \ac{HTTP} kann eine der \ac{HTTP}-Methoden verwenden und damit auch eine andere Funktion der REST-API ansprechen. Bei GraphQL hingegen sind alle Anfragen entweder \textit{HTTP-POST} oder \textit{HTTP-GET}.
+\item Datenabfrage: Bei \ac{REST} werden immer alle Daten einer Datenstruktur zurückgeben, falls der Server Daten nicht über Parameter filtert. Bei GraphQL muss bei jeder Anfrage genau angeben werden, welche Daten benötigt werden.
+\end{itemize}
 \end{itemize}

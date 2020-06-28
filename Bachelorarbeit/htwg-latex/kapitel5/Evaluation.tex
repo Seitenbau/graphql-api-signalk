@@ -1,4 +1,135 @@
-\chapter{Evaluation}
+\chapter{Evaluation}\label{evaluation}
 
+Das vorherige Kapitel ist auf einige wichtige Aspekte beim Aufbau einer \ac{api} eingegangen. Doch welche Erkenntnisse sich daraus ziehen lassen, kann ohne Kontext nicht beantwortet werden. Dieses Kapitel wird einige Uses-Cases aufstellen und anschließend untersuchen, im welchem dieser Fälle welche Technologie zu empfehlen ist. Zur Definition der Use-Cases werden die folgenden Parameter genutzt \ref{tab:Parameter}:
 
-Evaluation der Analyse anhand von Use-Cases
+\begin{table}[H]
+\begin{tabular}{p{3cm} p{11cm}}
+Schnittstellen & Wie viele Funktionen gibt es? Wie kompliziert sind sie?\\
+Daten &  Wie viele Daten werden realistischerweise ausgegeben? Welche Struktur haben diese? \\
+Eingaben & Können Parameter übergeben werden? Können die gespeicherten Daten verändert werden? \\
+Entwicklung & Wie aufwändig ist die Entwicklung? Wie häufig gibt es Änderungen? Ist ein Frontend vorgesehen? \\
+Zielgruppe & Ist die API für die Öffentlichkeit gedacht oder nur für einen bestimmten Personenkreis? Soll es gut möglich sein eigene Frontends mit dieser API aufzubauen? \\
+\end{tabular}
+\caption{Parameter eines Use-Cases}
+\label{tab:Parameter}
+\end{table}
+
+Diese Parameter sollen zwei Eigenschaften erfüllen. Einerseits sollen sie einen direkten Einfluss darauf haben, wie eine API aufgebaut sein muss. Andererseits soll sie dabei auch Auswirkungen auf einen der in Kapitel \ref{analyse} untersuchten Aspekte haben. \textit{Schnittstellen} und \textit{Daten} geben dabei Überblick über die Komplexität der API. Durch die \textit{Eingaben} soll gezeigt werden, wie ausführlich und kompliziert die Validierung sein muss, während \textit{Entwicklung} und \textit{Zielgruppe} die benötigte Flexibilität der API-Technologie widerspiegeln sollen. 
+
+\section{Use-Cases}
+
+Web-APIs werden aus ganz unterschiedlichen Gründen gebaut. Ein Use-Case entspricht  im Kontext dieser Arbeit einem dieser Gründe. 
+
+\subsection{Einfache API}
+
+\begin{table}[H]
+\begin{tabular}{p{3cm} p{11cm}}
+Use Case & \textbf{Einfache API} \\
+Schnittstellen & Nur wenige Funktionen mit einer geringen Komplexität \\
+Daten & Wenige Daten in kleinen Datenstrukturen \\
+Eingaben & Keine oder nur wenige Übergabeparameter und keine Veränderung der Daten \\
+Entwicklung & Schnelle Entwicklung des Servers; kein Frontend; keine Änderungen vorgesehen \\
+Zielgruppe & API ist für die Öffentlichkeit entwickelt; Ein eigenes Frontend ist zwar theoretisch möglich, aber aufgrund der geringen Datenmenge nicht sinnvoll
+\end{tabular}
+\caption{Use-Case: Einfache API}
+\end{table}
+
+Eine einfache \ac{api} stellt nur wenige Informationen bereit. In vielen Fällen wird dafür sogar nur eine einzige Funktionalität genutzt. \ac{api}s dieser Art geben nur eine sehr geringe Datenmenge aus und sollen vor allem leicht zu nutzen sein. Ihre Entwicklung ist meistens nicht besonders aufwändig, was auch daran liegt, dass es keinen Frontend-Client gibt. Solche \ac{api}s sollen von anderen Anwendungen aufgerufen werden, wenn sie genau die Information benötigen. Deswegen sind sie eigentlich immer für die Öffentlichkeit konzipiert. Als Beispiel kann eine \ac{api} betrachtet werden, welche die aktuelle Zeit einer Zeitzone ausgibt.
+
+\subsection{Einfache API mit großer Datenstruktur}
+
+Dieser Use-Case beschreibt eine Weiterführung des vorherigen Falles. Auch hier gibt es eine entscheidende Funktionalität, welche aber eine wesentlich größere Datenstruktur ausgibt, als beim vorherigen Fall. Unter eine größeren Datenstruktur versteht man im Kontext dieser Evaluation eine Struktur mit mehr als 15 unterschiedlichen Feldern. Damit einher geht häufig eine etwas höhere Komplexität der Schnittstelle. Als Beispiel für eine solche \ac{api} kann die native SignalK-API genommen werden. Zwar sind hier mehrere Funktionalitäten möglich, doch die wichtigste Aufgabe ist die Rückgabe der Daten des eigenen Bootes. Diese sind Resultat von vielen verschiedenen Sensoren und bilden eine entsprechend große Datenstruktur.
+
+\begin{table}[H]
+\begin{tabular}{p{3cm} p{11cm}}
+Use Case & \textbf{Einfache API mit großer Datenstruktur} \\
+Schnittstellen & Nur wenige Funktionen, durchschnittliche Komplexität \\
+Daten & Wenige Daten in großen Datenstrukturen \\
+Eingaben & Parameter können übergeben werden, aber die gespeicherten Daten können nicht verändert werden \\
+Entwicklung & Schnelle Entwicklung des Servers; kein Frontend; Änderungen möglich \\
+Zielgruppe & API ist für die Öffentlichkeit entwickelt; Ein eigenes Frontend ist zwar theoretisch möglich, aber aufgrund der geringen Datenmenge nicht sinnvoll
+\end{tabular}
+\caption{Use-Case: Einfache API mit großer Datenstruktur}
+\end{table}
+
+\subsection{Webseiten-API}
+
+Solche \ac{api}s werden für eine bestimmte Webseite oder App entwickelt. In vielen Fällen hat man aber festgestellt, dass es für die Nutzer von Vorteil ist, wenn sie direkten Zugriff und eine übersichtliche Dokumentation für die \ac{api} erhalten. Die Nutzerzahlen einer solchen \ac{api} sind meistens wesentlich höher. Als konkretes Beispiel kann hier die Twitter-API genannt werden.
+
+\begin{table}[H]
+\begin{tabular}{p{3cm} p{11cm}}
+Use Case & \textbf{Webseiten-API} \\
+Schnittstellen & Viele Funktionalitäten mit durchschnittlicher Komplexität \\
+Daten & Viele Daten in durchschnittlich großen Datenstrukturen \\
+Eingaben & Es können Parameter übergeben werden und gespeicherte Daten können verändert werden \\
+Entwicklung & Aufwändige Entwicklung; Frontend existiert meistens; Änderungen sehr wahrscheinlich \\
+Zielgruppe & API ist für die Nutzung der Öffentlichkeit gedacht; Ein eigenes Frontend ist möglich und sinnvoll
+\end{tabular}
+\caption{Use-Case: Webseiten-API}
+\end{table}
+
+\section{Use-Case basierte Evaluation}
+
+Für jeden dieser Use-Cases muss jetzt bestimmt werden, ob sich der Einsatz von GraphQL lohnen würde. Dafür wird betrachtet, welche Auswirkungen die einzelnen Aspekte auf den jeweiligen Use-Case haben.
+
+\subsection{Einfache API}
+
+Die \textit{Einfache API} braucht eigentlich nicht viel. Sie sollte vorzugsweise sehr schnell zu implementieren und einfach zu verwenden sein. Das Kapitel \nameref{Implementierung} hat gezeigt, dass dies mit \ac{REST} einfacher umzusetzen ist. Die erhöhte Komplexität von GraphQL, welche einen genaueren Datenzugriff ermöglicht kann hier keine Vorteile bringen. Wie im Kapitel \nameref{antwortzeit} erläutert, führt die geringe Datenmenge dazu, dass die Antwortzeit des Servers eigentlich nur noch von der Latenz abhängt. In diesem Fall ist also der Einsatz von \ac{REST} zu empfehlen.
+
+\begin{table}[H]
+\begin{tabular}{p{4cm} p{10cm}}
+Implementierung & Sehr einfache Implementierung sinnvoll \\
+Dokumentation & Dokumentation ist sehr kurz, muss nicht automatisiert sein \\
+Validierung & Sehr einfach, da kaum Übergabeparameter \\
+Over- und Underfetching & Unwichtig, da Daten- und Funktionsmenge zu gering \\
+Caching & Wenig nützlich, da Daten sich häufig ändern(Bsp.: Zeit ist immer anders)
+\end{tabular}
+\caption{Evaluation: Einfache API}
+\end{table}
+\subsection{Einfache API mit großen Datenstruktur}
+
+Auch bei diesem Use-Case sollte die Implementierung noch einfach umzusetzen sein. Nach Kapitel \nameref{Implementierung} wäre hierfür also wieder \ac{REST} zu empfehlen. Je nach Größe und Komplexität der Datenstruktur kann es aber vorkommen, dass sehr viel Overfetching auftritt. Und das ist nicht nur für die Antwortzeit schlecht, es ist für einen Frontendentwickler auch unübersichtlicher zu nutzen. Der Abschnitt \nameref{OverUnderfetching} hat hierfür einige Lösungsvorschläge genannt. Wenn eine große Flexibilität erwünscht ist, muss man GraphQL wählen. Meistens ist das aber nicht der Fall. Stattdessen will man bei einer solchen \ac{api} entweder alles haben oder nur bestimmte Abschnitte, wie bspw. die Daten eines Sensors. Will man jedoch alles in einer großen Datenstruktur haben, kann die Anfrage bei GraphQL schnell riesig werden. Und um nur Abschnitte zu erhalten, reicht die Feldparameterlösung meistens aus. Einer \ac{api}, wie der SignalK-API, ist also zu empfehlen, \ac{REST} zusammen mit einer Feldparameterlösung zu wählen.
+
+\begin{table}[H]
+\begin{tabular}{p{4cm} p{10cm}}
+Implementierung & Einfache Implementierung sinnvoll \\
+Dokumentation & Dokumentation ist sehr kurz, muss nicht automatisiert sein \\
+Validierung & Einfach, da keine Datenveränderung möglich \\
+Over- und Underfetching & Zu geringe Datenmenge für Underfetching, Overfetching kann vorkommen \\
+Caching & Wenig nützlich, da Daten sich häufig ändern (Bsp.: Sensordaten des Bootes)
+\end{tabular}
+\caption{Evaluation: Einfache API mit großen Datenstruktur}
+\end{table}
+
+\subsection{Webseiten-API}
+
+Bei einer solchen \ac{api} ist die Implementierung schon aufgrund der vielen Funktionalitäten komplizierter. Um die \ac{api} noch gut nutzen zu können, ist eine ausführliche Dokumentation nötig, aber auch aufwändig. Wie in Kapitel \nameref{dokumentation} gezeigt, eignet sich GraphQL dafür sehr gut. Die automatisierte Erstellung einer interaktiven Dokumentation spricht in diesem Fall klar für GraphQL. Da die Validierung hier genauerer Abfragen bedarf, hat GraphQL zwar einen leichten, aber keinen entscheidenden Vorteil. Denn das Kapitel \nameref{validierung} hat schon gezeigt, dass für solche Lösungen beide Technologien auf Bibliotheken zurückgreifen müssen.\\
+Um bei einer solchen \ac{api} eine gute Antwortzeit zu erreichen, müssen viele Probleme gelöst werden. So liegt hier ein klarer Fall von Over- und Underfetching vor. Die hohen Datenmengen führen schnell zu einem Fall von Overfetching. Und die vielen Funktionalitäten haben gleich mehrere Nachteile. Einerseits würde der Einsatz von \ac{HATEOAS} wohl dazu führen, dass sehr viele Links mitgeschickt werden müssten. Dadurch würde sich das Overfetching noch verschärfen. Andererseits ist es dadurch auch wahrscheinlicher, dass ein Underfetching-Fall auftritt. Wie der Abschnitt \nameref{OverUnderfetching} gezeigt hat, könnte GraphQL eine Lösung für diese Probleme anbieten. Um eine gute Antwortzeit zu erreichen, muss aber vor allem ein gutes Caching vorliegen. Viele der Daten werden sich in kurzer Zeit kaum bis gar nicht verändern und können somit sehr gut gecacht werden. Falls der Cache nicht absolut effizient sein muss, kann auch hier noch GraphQL mit einer GET-Anfrage genutzt werden. Für bessere Lösungen sollten dann Bibliotheken genutzt werden.\\
+Doch noch ein weiterer Aspekt spricht für GraphQL. \textit{Webseiten-APIs} werden meistens dauerhaft weiterentwickelt. So können einerseits im Backend weitere Parameter hinzukommen, andererseits können neue Seiten im Frontend aufgebaut werden. GraphQL ermöglicht durch die erhöhte Flexibilität bei der Datenabfrage, dass solche Änderungen in vielen Fällen unabhängig zwischen Back- und Frontend durchgeführt werden können.\\
+Zusammengefasst lässt sich sagen, dass es \textit{Twitter} daher zu empfehlen ist, auf GraphQL umzusteigen.
+
+\begin{table}[H]
+\begin{tabular}{p{4cm} p{10cm}}
+Implementierung & Implementierung ist aufgrund der hohen Funktionalitätsanzahl komplizierter \\
+Dokumentation & Dokumentation ist sehr aufwändig, Automatisierung ist zu empfehlen \\
+Validierung & Kompliziert, viele Eingaben möglich, gespeicherte Daten können verändert werden \\
+Over- und Underfetching &  Hohe Datenmenge und Funktionalitätsanzahl führt zu Over- und Underfetchingproblemen \\
+Caching & Sehr nützlich, da sich die meisten Daten kaum ändern
+\end{tabular}
+\caption{Evaluation: Webseiten-API}
+\end{table}
+
+\section{Zusammenfassung und Einstufung der Ergebnisse}
+
+Die Use-Cases haben gezeigt, dass sich der Einsatz von GraphQL eigentlich erst bei komplizierteren \ac{api}s lohnt. Die etwas kompliziere Implementierung, vor allem im Frontend ist dabei als Einstiegshürde für GraphQL zu nennen. Gleichzeitig kommen die Vorteile von GraphQL aber auch erst bei solchen \ac{api}s zum Tragen. Diese Vorteile liegen vor allem in der Datenabfrage. Ein Frontendentwickler kann immer genau das anfordern, was er benötigt und weiß immer genau, wie die Antwort aufgebaut ist. Das ist ein Resultat aus dem Typesystem und der \textit{Graph Query Language}. Die erhöhte Flexibilität, die sich daraus ergibt, kann eine unabhängige Entwicklung von Back- und Frontend unterstützen. \\
+Wie aussagekräftig diese Ergebnisse sind, hängt noch von vielen weiteren Faktoren ab. Dafür müssen einerseits noch weitere wichtige Aspekte untersucht werden, welche in dieser Arbeit keinen Platz gefunden haben. Dazu gehören Authentifikation und Autorisierung, d.\,h. wer ist der Nutzer und was darf er tun. Interessant ist dabei auch, wie gut man die Zugriffsrechte auf auf bestimmte Felder und Endpunkte konfigurieren kann. Außerdem muss gezeigt werden, wie gut sich große binäre Dateien wie Bilder mit der jeweiligen Technologie übertragen lassen. Auch Errorhandling wurde nicht behandelt, sollte aber beim Aufbau einer guten \ac{api} immer eine wichtige Rolle spielen. Des Weiteren müssten die verschiedenen Bibliotheken und Frameworks genauer betrachtet werden, um zu schauen, welche Features sie bieten. Zuletzt muss noch der Architekturstil der Software betrachtet werden. Dabei müssen vor allem verteilte Architekturen wie Microservices betrachtet werden.
+
+\begin{table}[H]
+\begin{tabular}{p{4cm} p{5cm}}
+Use-Case & Empfohlene Technologie \\
+Einfache API & REST \\
+Einfache API mit großen Datenstruktur & REST \\
+Webseiten-API &  GraphQL \\
+\end{tabular}
+\caption{Evaluation: Zusammenfassung}
+\end{table}

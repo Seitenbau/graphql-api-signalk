@@ -1,0 +1,80 @@
+\chapter{Methodik der Analyse}\label{methodik}
+
+Ziel der Arbeit ist die Analyse der verschiedenen Aspekte von Web-APIs bei der Verwendung von REST oder GraphQL. Dafür muss jedoch der Kontext für die Analyse festgelegt werden. Dieses Kapitel beschäftigt sich zuerst im Abschnitt \nameref{technologien} mit den dafür genutzten Technologien. Anschließend wird in der Sektion \ref{aspekte} auf die Aspekte eingegangen, welche im nachfolgenden Kapitel genauer analysiert wird. Dazu wird erklärt, wieso diese Aspekte wichtig sind und welche Faktoren man untersuchen muss. Dabei wird immer darauf eingegangen, wie die Analyse diese Faktoren untersuchen soll.
+
+\section{Technologien}\label{technologien}
+
+Zur Analyse der Aspekte wird eine \ac{api} sowohl in GraphQL als auch in \ac{REST} umgesetzt. Diese \ac{api} basiert auf einem Plugin der SignalK-API, eine \ac{api}, welche das SignalK Datenformat versendet \parencite{signalkServerNode2020}. Eingesetzt wird das Datenformat im Marinebereich. Aufgabe des Plugins ist es, die Verwaltung von Segelrouten zu regeln. Für die gesamte \ac{api} gab es mehrere Implementierungen in verschiedenen Programmiersprachen zur Auswahl. Die Entscheidung fiel auf \textit{JavaScript} in der \textit{nodejs} Laufzeitumgebung.Javascript kann sehr einfach und übersichtlich geschrieben werden, wodurch der Fokus auf den jeweiligen API-Technologien liegt. Ein weiterer Vorteil ist, dass damit auch ein Testclient aufgesetzt werden kann, wodurch die Anzahl an verwendeten Technologien sinkt.\\
+
+Nach der Wahl der Programmiersprache müssen entsprechende Bibliotheken ausgesucht werden. Die Bibliotheken gehören dabei zwei Lagern an. Auf der eine Seite hat man Bibliotheken, welche die Implementierung der jeweiligen Technologie in verschiedenen Sprachen anbieten. Auf der anderen Seite hat man Bibliotheken, welche hilfreiche Features liefern, um die Technologie besser nutzen zu können. Diese Bibliotheken sind aber nur unterstützend und  können somit keine eigene \ac{api} aufbauen. In vielen Fällen wie \textit{Apollo}  liefern die Implementierungsbibliotheken einige dieser Features schon mit. Ziel der Arbeit ist es jedoch nicht, die Qualität und Features der einzelnen Bibliotheken zu analysieren. Stattdessen sollen hauptsächlich die grundlegenden Designvorschriften und die daraus resultierenden Vor- und Nachteile betrachtet werden. Zu diesem Zweck werden als Bibliotheken möglichst einfache Implementierungen von \ac{REST} und GraphQL für Server und den Client genommen. In einigen Sonderfällen werden jedoch bestimmte Funktionen erwähnt, welche durch Bibliotheken möglich sind. Tabelle \ref{tab:Bibliotheken} zeigt, welche Bibliotheken ausgewählt wurden. \textit{Express} ist eigentlich ein ganzes Framework, welches jedoch einen sehr einfachen Aufbau von Servern ermöglicht. Durch Erweiterungen kann auch GraphQL problemlos umgesetzt werden. Für den Client muss in beiden Fällen nur eine Möglichkeit existieren, Anfragen über \ac{HTTP} zu versenden. \textit{Node-fetch} ermöglicht dies in einer einfachen, übersichtlichen Art und Weise. 
+
+\begin{table}
+\begin{tabular}{p{3cm} p{3cm} p{3cm}}
+API & Server & Client \\
+REST & express & node-fetch \\
+GraphQL & express-graphql graphql & node-fetch \\
+\end{tabular}
+\caption{Verwendete Bibliotheken}
+\label{tab:Bibliotheken}
+\end{table}
+
+\section{Aspekte}\label{aspekte}
+
+Jetzt stellt sich noch die Frage, welche Aspekte genauer behandelt werden sollen. Dazu werden untere anderem verschiedene Prinzipien des API-Designs von REST-APIs betrachtet. Diese beziehen sich häufig auf universal nützliche Funktionalitäten. Die Aspekte sollten möglichst so ausgewählt werden, dass ihre Anwendung zu einer sicheren und nutzerfreundlichen \ac{api} führt. Dafür werden auch Aspekte betrachtet, welche \ac{REST} schlecht behandelt oder welche den Kern von GraphQL ausmachen. Für jeden dieser Aspekte stellt sich noch die Frage,  wie er untersucht werden kann. In vielen Fällen wird es sich dabei um eine Codegegenüberstellung handeln, es kann aber auch auf verschiedene Literaturquellen zurückgegriffen werden. Eine genauere Beschreibung der Analyse wird für jeden der Aspekte individuell aufgeführt.
+
+\subsection{Verbreitung und Ausgereiftheit}
+
+Ziel der vorliegenden Arbeit ist es eine Entscheidungshilfe zu liefern, ob sich der Einsatz von GraphQL gegenüber \ac{REST} für das eigene Projekt lohnt. Wenn man sich mit den Technologien auseinandersetzt, stellt man schnell fest, dass man eigentlich die gleichen \ac{api}s aufsetzten kann. Die Implementierung wird sich zwar unterscheiden, aber die reine Funktionalität ist gleich. Es lohnt sich deswegen, erst auf Faktoren zu schauen, welche unabhängig vom Aufbau einer \ac{api} sind. Dieser Aspekt will sich deswegen damit beschäftigen, wie weit verbreitet die jeweiligen Technologien sind. Vor allem bei neueren Technologien wie GraphQL kann das einen guten Hinweis darüber geben, wie gut und nützlich sie ist. Da GraphQL inzwischen eine Open Source Software ist, wird der Faktor noch verstärkt. Eine Open Source Software ist eine Software, bei der jeder weiterentwickeln kann. Es ist so bspw. erlaubt sie zu nutzen, um weitere Implementierungen in anderen Sprachen zu entwickeln. Warum diese Faktoren so wichtig sind, zeigt sich vor allem an drei Eigenschaften:
+
+\begin{itemize}
+\item \textbf{Qualität:} Eine neue Technologie, welche sich schnell weitverbreitet, deutet meist daraufhin, dass die Qualität bzw. Nützlichkeit weit über der Konkurrenz liegt.
+\item \textbf{Ausgereiftheit:} Eine neue Open Source Technologie lebt davon, dass die Nutzer sie verwenden und weiterentwickeln. Je mehr Nutzer es gibt, desto mehr Potential gibt es für die Weiterentwicklung der Technologie oder auch Bibliotheken zur Nutzung der Technologie. Und das wiederum führt dazu, dass mögliche Schwächen der Technologie wahrscheinlicher durch verschiedene Bibliotheken ausgemerzt werden.
+\item \textbf{Langlebigkeit:} Neue Technologien sind in der Softwarebranche an der Tagesordnung. Aufgrund dieses Überangebots kommt es häufig vor, dass auch hochwertige Technologien wieder aussterben. Als Unternehmen will man es vermeiden, seine Produkte auf Technologien aufzubauen, welche in drei Jahren niemand mehr nutzt. Für \ac{api}s ist das besonders kritisch, da hier im Laufe der Zeit möglicherweise neue Frontends angebunden werden sollen. Ist eine Technologie aber schon weit verbreitet, sinkt dieses Risiko natürlich stark.
+\end{itemize}
+
+Für die Analyse sollen nun zwei Faktoren betrachtet werden. Zum einen, welche Unternehmen die jeweilige API-Technologie verwenden und warum sie es tun. Daraus kann man erste Schlüsse ziehen, wann sich der Einsatz von GraphQL lohnen würde. Außerdem sollte auch betrachtet werden, welche Bibliotheken oder Frameworks zur Verfügung stehen. Zwar sollen sie im Rahmen der Arbeit nicht analysiert werden, aber ausführliche Bibliotheken für verschiedene Sprachen sind ein gutes Zeichen für die Verbreitung einer Technologie. Zusätzlich ist eine hohe Anzahl an Bibliotheken auch ein gutes Zeichen, dass es für mögliche Probleme der Technologie bereits eine Lösung in Form einer Bibliothek gibt.
+
+\subsection{Implementierung}\label{implementierung}
+
+Wenn man dann anfängt, eine \ac{api} zu bauen, stellt sich zuerst immer die Frage, wie die Implementierung aussieht und vor allem, wie aufwändig diese ist. Die Analyse soll sich hierfür nur mit einer sehr einfachen Implementierung auseinandersetzen. Die Komplexität von aufwändigeren Implementierungen ist häufig das Resultat anderer Aspekte. Solche Aspekte werden in den jeweiligen Abschnitten individuell behandelt.\\
+Ziel ist es, den Aufwand widerzuspiegeln, welcher ungefähr der Implementierung eines REST-Endpunktes entspricht. Dabei muss sowohl der Aufwand im Backend, also dem Server, betrachtet werden als auch der Aufwand im Frontend, dem Client. Die gleiche Funktionalität soll anschließend in GraphQL umgesetzt werden und die Ergebnisse verglichen und analysiert werden.
+
+\subsection{Dokumentation}\label{Dokumentation}
+
+Eine gute \ac{api} besteht aber nicht nur aus der Implementierung. Wie in \parencite{APIYouWontHate2015} erklärt wird, sollte stattdessen schon früh im Entwicklungsprozess damit begonnen werden, eine übersichtliche Dokumentation anzufertigen. Denn Entwickler, welche die \ac{api} nutzen, brauchen Informationen über zwei Aspekte: Welche Daten stehen zur Verfügung und welche Möglichkeiten hat man, um auf diese Daten zuzugreifen? Für eine Übersicht der Möglichkeiten versuchen \ac{REST} mit \ac{HATEOAS} und GraphQL mit seinem Introspektionssystem eine Lösung zu finden. Doch ob damit alles abgedeckt wird und ob es anwenderfreundlich ist, muss untersucht und analysiert werden. Auf welche Daten über die Schnittstellen zugegriffen werden kann, muss ebenfalls ausführlich dokumentiert werden. GraphQL hat mit dem Typesystem schon eine strike Typisierung zur Definition dieser Datenstrukturen. Wie nützlich das für die Dokumentation ist und wie dieser Faktor bei \ac{REST} umgesetzt werden kann, wird in der Analyse gezeigt. Außerdem soll auch auf mögliche automatisierte Dokumentationsverfahren eingegangen werden.
+
+\subsection{Validierung}
+
+Ein weiterer wichtiger Faktor zum Aufbau einer guten und sicheren \ac{api} ist die Validierung. Das \ac{BSI} schreibt hierzu:
+
+\begin{quote}
+\glqq Bei der Datenvalidierung geht es darum sicherzustellen, dass durch Ein- und Ausgaben keine ungewollten Aktionen ausgelöst bzw. Manipulationen durchgeführt werden können. \grqq \parencite{Bund2013}
+\end{quote}
+
+Sie weisen auch darauf hin, dass man für Eingabedaten ein positives Sicherheitsmodell verwenden sollte, d.\,h. dass die Daten explizit angenommen und nicht abgelehnt werden sollen.  \parencite{Bund2013} GraphQL nutzt das Typesystem, um genau dieses Ziel zu erreichen. Wie gut das funktioniert, wird in der Analyse beantwortet werden. Gleichzeitig soll gezeigt werden, wie die Validierung in \ac{REST} umgesetzt wird.
+
+\subsection{Antwortzeit}\label{antwortzeit}
+
+Beim Aufbau einer \ac{api} ist Benutzerfreundlichkeit einer der auschlaggebenden Punkte. Diese ist von vielen Faktoren abhängig. Doch als erstes fällt jedem Nutzer die Ladegeschwindigkeit der Seite auf.  Wenn jede Aktion mit einer Sekunde warten verbunden ist, sind die Nutzer schnell unzufrieden. Diese Ladegeschwindigkeit ist ein Resultat der Antwortzeit der \ac{api}. Wie lange dauert es also, um eine Anfrage zur \ac{api} zu schicken, die Daten für die Antwort zu bekommen und anschließend die Antwort zurück zum Client zu schicken. Folgende Faktoren sind dabei ausschlaggebend (teilweise \parencite{Rajak2017}):
+
+\begin{itemize}
+\item \textbf{Latenz:} Die Latenz gibt an, wie lange einen Datenpaket, unabhängig von seiner Größe, braucht, um von der Quelle zum Ziel zu kommen. Dieser Faktor kann auf API-Ebene nicht verändert werden. Stattdessen hängt er von der Lokalisierung von Client und Server ab. Eine geringere Latenz kann also bspw. durch gut verteilte Server erreicht werden.
+\item \textbf{Datenübertragung:} Die Datenübertragung hängt von zwei Aspekten ab: der Bandbreite der Leitung und der Größe der Daten. Die Bandbreite gibt an, wie viele Daten wie schnell übertragen werden können. Es kann jedoch auf die Bandbreite der Nutzer kein Einfluss genommen werden. Als API-Entwickler muss man sogar davon ausgehen, dass diese sehr klein ist. Entsprechend sollte die Datenmenge möglichst gering gehalten werden. Häufig kommt es vor, dass die Antwort mehr Daten enthält, als der Client eigentlich benötigt. Dieses sogenannte \textbf{Overfetching} soll bei einer gut designten \ac{api} nach Möglichkeit vermieden werden.
+\item \textbf{Underfetching:} Underfetching bezeichnet den Vorgang, dass mehrere Anfragen geschickt werden müssen, um ein Problem zu lösen. Im schlimmsten Fall muss auf die Antwort einer Anfrage gewartet werden, bevor dann eine weitere Anfrage geschickt werden kann, um alle Daten zu erhalten. Deswegen sollte die \ac{api} möglichst alle benötigten Daten in einer Anfrage beantworten können.
+\item \textbf{Caching:} Caching bezeichnet den Vorgang, Anfragen und ihre Antwort in einem Cache zu speichern. Dadurch müssen manche Anfragen nicht wiederholt vom Server beantwortet werden, sondern können auf dem Weg schon von einem Cache bedient werden. Mit gutem Caching können für manche Anfragen alle vorherigen Faktoren vermieden werden. Eine \ac{api} sollte entsprechend einen Caching\-support anbieten.
+\item \textbf{Anfragen-Batching:} Anfragen-Batching beschreibt den Vorgang, mehrere Anfragen im Client zu kombinieren und gemeinsam abzuschicken. Dadurch können unnötige \textit{Round-Trip-Times} vermieden werden. Anfragen-Batching wird jedoch meistens über Bibliotheken umgesetzt. Eine eigene manuelle Lösung ist sowohl für \ac{REST} als auch GraphQL unnötig komplex. Deswegen wird in dieser Arbeit nicht genauer darauf eingegangen.
+\end{itemize}
+
+Over- und Underfetching sind Aspekte, auf die genau eingegangen werden muss. Denn sie sind einer der ausschlaggebenden Punkte, welche für GraphQL sprechen. Bei REST-APIs sind diese Probleme hingegen häufig weit verbreitet.\\
+Die Analyse dieses Punktes wird sich damit beschäftigen, wieso die Probleme in REST-APIs häufig auftreten, aber auch, wie sie umgangen werden können. Dem gegenüber wird betrachtet, wie GraphQL versucht  das Problem schon im grundlegenden Konzept zu umgehen.\\
+
+Der nächste Punkt, der von der \ac{api} beeinflusst werden kann, ist das Caching. Dafür ist ein genaueres Verständnis von Caching nötig. Ein Cache ist ein Zwischenspeicher. Abgefragte Daten können dort gespeichert werden, um gleiche Anfragen nicht wiederholt ganz bis zum Server durchgeben zu müssen. Häufig liegen auf dem Pfad mehrere Caches. Diese können auf drei verschiedene Varianten heruntergebrochen werden \parencite{McKinnon2019}:
+
+\begin{itemize}
+\item \textbf{Seitencache:} Der Seitencache speichert den Seiteninhalt ab. Entscheidend ist dabei, dass dieser Cache vom Client kontrolliert werden kann, d.\,h. er kann theoretisch beeinflussen, was und wie lange gespeichert werden soll. Häufig wird dies aber automatisch über HTTP-Header festgelegt.
+\item \textbf{Browsercache:} Der Browsercache funktioniert theoretisch genau so, jedoch speichert er Daten für alle Seiten ein, welche über den Browser aufgerufen werden. Außerdem wird dieser vom Browser kontrolliert. Der Endnutzer kann jedoch jederzeit den Cache leeren.
+\item \textbf{Servercache:} Der Servercache liegt, wie der Name schon sagt, auf der Serverseite. Dabei werden, falls das möglich ist, auch gleiche Anfragen verschiedener Nutzer und ihre Antwort im Cache abgespeichert. Damit sollen unnötige Abfragen an die Datenbank vermieden werden.
+\end{itemize}
+
+Alle Varianten haben gemeinsam, dass festgelegt werden muss, welche Daten wie lange gecacht werden können. Um die Daten zu cachen ist ein eindeutiger Schlüssel vonnöten. Dieser wird aus der Anfrage erstellt. Wenn eine weitere Anfrage den gleichen Schlüssel erzeugt, kann sie die Daten im Cache auslesen und muss nicht vom Server beantwortet werden. Im besten Fall sollten Anfragen, welche genau die gleichen Daten haben wollen, auch den gleichen Schlüssel bekommen. Dabei sollen bspw. vertauschte Parameter keinen Einfluss haben. Die Analyse wird sich damit beschäftigen, wie die verschiedenen Cachingvarianten bei \ac{REST} und GraphQL umgesetzt werden können. Dazu muss der Aufwand untersucht werden, welcher nötig ist, um überhaupt ein Caching implementieren zu können.\\
+\\

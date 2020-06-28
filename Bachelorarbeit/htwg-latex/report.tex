@@ -2,7 +2,49 @@
 \pdfminorversion=7
 \documentclass[german]{htwg-report}
 
-\addbibresource{./bib/report.bib}
+\usepackage{listings}
+\usepackage{acronym}
+\usepackage[nottoc]{tocbibind}
+\usepackage{scrextend}
+\usepackage{csquotes}
+\usepackage{biblatex}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[T1]{fontenc}% wichtig für Trennung von Wörtern mit Umlauten
+\graphicspath{ {./images/} }
+
+
+\addbibresource{report.bib}
+
+\definecolor{lightgray}{RGB}{233,233,233}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset
+{ %Formatting for code in appendix
+    language=JavaScript,
+    basicstyle=\footnotesize,
+    numbers=left,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    backgroundcolor=\color{lightgray}
+}
 
 \begin{document}
 
@@ -27,16 +69,25 @@
 \studentemail{david.wolpers@htwg-konstanz.de}
 
 \doclocation{Konstanz}
-\docdate{30ter März 2020}
+\docdate{30. Juni 2020}
 
 \makecover[]
 %          
 %% Include an optional title page.
 \input{title}
 
+\input{erklärung}
 \input{abstract}
 
 \tableofcontents
+\listoffigures
+\listoftables
+\renewcommand{\lstlistoflistings}{\begingroup
+\tocfile{\lstlistingname}{lol}
+\endgroup}
+\renewcommand{\lstlistingname}{Quellcode}
+\lstlistoflistings
+\input{Abkürzungsverzeichnis/Abkürzungsverzeichnis}
 
 %% Use Arabic numerals for the page numbers of the chapters.
 \mainmatter
@@ -45,7 +96,7 @@
 
 \input{kapitel2/Technischer Hintergrund}
 
-\input{kapitel3/Aspekte von Web-APIs}
+\input{kapitel3/Methodik der Analyse}
 
 \input{kapitel4/Prototypische Analyse}
 
@@ -53,15 +104,17 @@
 
 \input{kapitel6/Fazit}
 
-\input{kapitel7/Ausblick}
-
 
 %% Use letters for the chapter numbers of the appendices.
 \appendix
 
 %\input{appendix-a}
 
-\printbibliography[heading=bibintoc]
+\printbibliography[
+heading=bibintoc,
+]
+
+\printbibliography[heading=subbibintoc,type=article,title={Articles only}]
 
 \end{document}
 
