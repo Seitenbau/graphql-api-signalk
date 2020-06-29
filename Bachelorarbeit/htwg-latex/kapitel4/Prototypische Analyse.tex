@@ -8,7 +8,7 @@ Zuerst soll dabei betrachtet werden, wie weit die jeweiligen Technologien verbre
 
 \subsection{Unternehmen}\label{unternehmen}
 
-\textbf{Twitter:} Twitter ist das wohl bekannteste Beispiel einer REST-API. Sie erlaubt Entwicklern, nahezu alle Daten von Twitter auszulesen, ohne dabei auf der Twitter Website zu sein. Das Prinzip ist aber genau das gleiche: Eine Schnittstelle stellt bspw. das Login zur Verfügung. Der Token, der dabei als Antwort erzeugt wird, kann genutzt werden, um im eigenen Namen zu Tweets zu posten. Es können aber natürliche auch aktuelle Tweets der eigenen Twitter Timeline ausgelesen werden \parencite{Twitter2020}. Dabei ist die Twitter-API eigentlich keine vollständige Implementierung der Designprinzipien \parencite{Ullenboom2017}. Stattdessen nutzt die Implementierung nur die Aspekte, welche sie wirklich braucht. \ac{REST} wird hier wahrscheinlich nur deswegen verwendet, weil es früher keine sinnvolle Alternative gab. \ac{SOAP} welches von \ac{REST} vom Markt verdrängt wurde, hatte dem kaum was gegenüber zu setzen. Andere Unternehmen wie Github nutzen aber die neuen Alternativen, um die Technologie zu wechseln.\\
+\textbf{Twitter:} Twitter ist das wohl bekannteste Beispiel einer REST-API. Sie erlaubt Entwicklern, nahezu alle Daten von Twitter auszulesen, ohne dabei auf der Twitter Website zu sein. Das Prinzip ist aber genau das gleiche: Eine Schnittstelle stellt bspw. das Login zur Verfügung. Der Token, der dabei als Antwort erzeugt wird, kann genutzt werden, um im eigenen Namen zu Tweets zu posten. Es können aber natürliche auch aktuelle Tweets der eigenen Twitter Timeline ausgelesen werden \parencite{Twitter2020}. Dabei werden die Designprinzipien von \ac{REST} von der Twitter-API nicht vollständig vollständig implementiert \parencite{Ullenboom2017}. Stattdessen nutzt die Implementierung nur die Aspekte, welche sie wirklich benötigt. \ac{REST} wird hier wahrscheinlich nur deswegen verwendet, weil es früher keine sinnvolle Alternative gab. \ac{SOAP}, welches von \ac{REST} vom Markt verdrängt wurde, hatte dem kaum was gegenüber zu setzen. Andere Unternehmen wie Github nutzen aber die neuen Alternativen, um die Technologie zu wechseln.\\
 \\
 \textbf{Github:} Github ist ein Unternehmen, welches eine Plattform zur Verfügung stellt, um die Entwicklung von Software zu organisieren. Beim Wechsel der \ac{api} von Version 3 auf Version 4 in 2016 wechselten sie auch von \ac{REST} zu GraphQL. Sie geben dafür mehrere Gründe an.\\
 Der erste ist der sehr weitgefächerte Punkt der Skalierbarkeit. Skalierbarkeit hängt von vielen Faktoren ab, in ihrem konkreten Beispiel verweisen sie aber vor allem auf die Menge der gesendeten Daten und Anfragen. Das Kapitel \nameref{antwortzeit} hat schon beschrieben, dass es sich dabei um die Probleme des Over- und Underfetching handelt. Interessant ist aber, dass sie als Ursache für das Overfetching vor allem \ac{HATEOAS} kritisieren. Im Abschnitt \nameref{OverUnderfetching} werden diese Probleme genauer beleuchtet. Aus Githubs Perspektive löst GraphQL diese Probleme vollständig.\\
@@ -283,6 +283,8 @@ Doch auch hier zeigen sich schnell die Nachteile dieser Variante. Zum einen ist 
 \\
 \textbf{HATEOAS:} Als Ursache mancher dieser Probleme können die REST-Prinzipien hergenommen werden. Der Abschnitt \nameref{unternehmen} zeigt bereits, dass Github vor allem \ac{HATEOAS} als Ursache sieht. Für eine vollständige RESTful-API wäre die Liste, welche \textit{/routes} ausgibt, keine Liste aus vollständigen Routenobjekten. Stattdessen wären nur ein Link und einige wenige identifizierende Daten für jede Route vorhanden. Zusätzlich wären noch weitere Links auf verwandte Ressourcen oder Funktionalitäten Teil der Antwort, wie z.\,B. das Hinzufügen einer neuen Route mit \textit{/route}. Dadurch würde eine mögliche Antwort wie der Code \ref{lst:HATEOASDaten} aussehen. Das Problem des Underfetching, welches dabei auftritt, wird in Sektion \nameref{underfetching} behandelt. Das entscheidende Problem beim Overfetching sind die verwandten Ressourcen und Funktionalitäten. Bei einer stark vernetzten \ac{api} kann es schnell vorkommen, dass hierbei eine unglaubliche Menge an Daten in Form von Links mitgeschickt wird. Doch damit sich das wirklich lohnt, müsste das Frontend diese Links auch aktiv nutzen. Doch wie schon das Kapitel \nameref{dokumentation} gezeigt hat, hat dies kaum einen Mehrwert. Viele Entwickler nutzten die Dokumentation, um die Links direkt in den Code zu schreiben. Trotzdem müssen sie sich noch mit der ganzen Liste an Links rumschlagen, die mitgeschickt wird. Würde man \ac{HATEOAS} hier entfernen, wäre eine ausführliche Dokumentation vonnöten. Da dies aber eigentlich Grundvoraussetzung für jede \ac{api} ist, wäre das kein Hindernis. Gleichzeitig ist \ac{HATEOAS} nach \parencite{Fielding2008} eines der Kernprinzipien von \ac{REST} und somit wäre eine \ac{api} ohne \ac{HATEOAS} eigentlich auch keine REST-API mehr. Falls \ac{HATEOAS} also wirklich ein Hindernis darstellt, sollte man vielleicht Github folgen und auf GraphQL wechseln.
 
+\vspace{-1pt}%
+
 \begin{lstlisting}[caption={Beispielliste der Routen mit HATEOAS},captionpos=b,label=lst:HATEOASDaten]
 	routes : {
 		self: {
@@ -378,10 +380,10 @@ Eine andere Möglichkeit ist es, statt \textit{POST}-Anfragen \textit{GET}-Anfra
 \begin{minipage}{\linewidth}
 \begin{lstlisting}[caption={GraphQL GET-Anfrage},captionpos=b,label=lst:GraphQLClientGET] 
 	fetch('http://localhost:3000/graphql/query='{routes {uuid}}', {					
-	    	headers: {
+		headers: {
 			'Cache-Control': 'max-age=100'
-	    	}
-	  })
+		}
+	})
 \end{lstlisting}
 \end{minipage}
 
